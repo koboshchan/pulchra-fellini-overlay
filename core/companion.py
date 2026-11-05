@@ -1459,10 +1459,6 @@ class PulchraDesktopCompanion:
         self.bubble_window.overrideredirect(True)
         self.bubble_window.wm_attributes("-topmost", True)
         self.bubble_window.attributes("-alpha", self.current_opacity)
-        try: 
-            self.bubble_window.wm_attributes("-transparentcolor", "#FF00FF")
-        except Exception: 
-            pass
         configure_transparency(self.bubble_window)
         
         if forced_text:
@@ -1505,7 +1501,7 @@ class PulchraDesktopCompanion:
         lbl.destroy()
         
         bw, bh, th_h = tw + (px * 2), th + (py * 2), 8  
-        canvas = tk.Canvas(self.bubble_window, width=bw, height=bh + th_h, bg="#FF00FF", bd=0, highlightthickness=0)
+        canvas = tk.Canvas(self.bubble_window, width=bw, height=bh + th_h, bg=self.bg_color, bd=0, highlightthickness=0)
         canvas.pack()
 
         if self.var_bubble_light_mode.get():
@@ -2268,8 +2264,6 @@ class PulchraDesktopCompanion:
         self.bubble_window.overrideredirect(True)
         self.bubble_window.wm_attributes("-topmost", True)
         self.bubble_window.attributes("-alpha", self.current_opacity)
-        try: self.bubble_window.wm_attributes("-transparentcolor", "#FF00FF")
-        except Exception: pass
         configure_transparency(self.bubble_window)
 
         msg = f" ALARM [{self.alarm_time_str}] \nClick to dismiss."
@@ -2281,7 +2275,7 @@ class PulchraDesktopCompanion:
         lbl.destroy()
         
         bw, bh, th_h = tw + (px * 2), th + (py * 2), 8
-        canvas = tk.Canvas(self.bubble_window, width=bw, height=bh + th_h, bg="#FF00FF", bd=0, highlightthickness=0)
+        canvas = tk.Canvas(self.bubble_window, width=bw, height=bh + th_h, bg=self.bg_color, bd=0, highlightthickness=0)
         canvas.pack()
         
         banner_bg = "#24292e"
@@ -2319,8 +2313,6 @@ class PulchraDesktopCompanion:
         self.bubble_window.overrideredirect(True)
         self.bubble_window.wm_attributes("-topmost", True)
         self.bubble_window.attributes("-alpha", self.current_opacity)
-        try: self.bubble_window.wm_attributes("-transparentcolor", "#FF00FF")
-        except Exception: pass
         configure_transparency(self.bubble_window)
         
         msg = "Contract complete. Time is up, collect your payout.\n\n Click to dismiss"
@@ -2332,7 +2324,7 @@ class PulchraDesktopCompanion:
         lbl.destroy()
         
         bw, bh, th_h = tw + (px * 2), th + (py * 2), 8
-        canvas = tk.Canvas(self.bubble_window, width=bw, height=bh + th_h, bg="#FF00FF", bd=0, highlightthickness=0)
+        canvas = tk.Canvas(self.bubble_window, width=bw, height=bh + th_h, bg=self.bg_color, bd=0, highlightthickness=0)
         canvas.pack()
         
         banner_bg = "#24292e"
@@ -2728,6 +2720,10 @@ def main():
                 app.apply_click_through()
                 app._get_system_idle_time()
                 app.trigger_chat_bubble(forced_text="Smoke test")
+                app.close_chat_bubble()
+                app.trigger_persistent_alarm_popup()
+                app.close_chat_bubble()
+                app.trigger_persistent_timer_popup()
                 app.close_chat_bubble()
                 app.open_settings_dashboard() if hasattr(app, "open_settings_dashboard") else None
                 app.change_costume("pulchra_overlay_sitting.png")
