@@ -1,82 +1,57 @@
 # Pulchra Fellini overlay
 
-A desktop companion featuring Pulchra Fellini from Zenless Zone Zero.
+Pulchra Fellini from Zenless Zone Zero, walking around your desktop.
 
-Original author: **gugoxiii ultimatedanx**. Original project and support site:
-https://sites.google.com/view/pulchra-fellini-overlay
+Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pulchra-fellini-overlay
 
-This repository is published with the original author's permission, as confirmed
-by the repository owner. It maintains the author's Windows 5.1.1 source with
-cross-platform packaging. No new license is asserted over the original code or
-artwork; those rights remain with their respective owners.
+I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## One shared application
+## Download
 
-The newer Windows version is canonical. Mac now matches Windows in shared
-application logic and content, including costumes, spritesheet walking, dialogue,
-trust, timers, alarms, settings and clipboard reactions. The outdated separate
-Mac application is not used.
+Grab a zip from [Releases](https://github.com/koboshchan/pulchra-fellini-overlay/releases), unzip the whole thing, and run it. You don't need Python.
 
-All application logic lives in `core/`. Small adapters in `windows/`, `mac/`
-and `linux/` implement the platform interface. The single `pulchra.py` entry
-point selects the appropriate adapter. All four CI targets build that same code.
+| Platform | File |
+|---|---|
+| Windows x64 | `Pulchra.exe` |
+| macOS (Apple Silicon) | `Pulchra.app` |
+| Linux x64 / arm64 | `Pulchra` |
 
-## Download and run
+Right-click or middle-click her for the menu. Esc quits. Your settings and dialogue JSON live in your normal user config folder.
 
-Download an artifact from the Actions tab, or an archive from Releases. Extract
-the entire archive before running Pulchra. Python is not needed for packaged
-builds. Windows provides Pulchra.exe; Linux provides Pulchra; Mac provides
-Pulchra.app.
+None of the builds are signed. On Mac you'll probably have to allow it in System Settings > Privacy & Security, and Windows SmartScreen might complain.
 
-Right-click or middle-click the pet for controls and About / Credits. Escape
-exits. Configuration and editable dialogue JSON are stored in your user config
-directory, not inside the executable or a temporary extraction directory.
+## What works where
 
-## Platform differences
+Windows is the original and has everything: tray icon, AFK detection, click-through.
 
-Windows retains the original tray icon, system-wide AFK detection and click-through.
-Mac uses native Tk transparency. Linux uses X11 SHAPE for the character outline,
-including walking frames. XWayland is recommended on Wayland desktops; native
-Wayland support is not guaranteed and may show a rectangular background.
+Mac and Linux run the same code (costumes, walking, dialogue, trust, timers, alarms, settings, clipboard reactions) but use the right-click menu instead of a tray icon. AFK detection and click-through are off there.
 
-Mac and Linux currently use the pet's context menu instead of a tray icon.
-System-wide AFK detection and click-through are Windows-only and are safely
-disabled elsewhere. This avoids requiring input-monitoring permissions or leaving
-a click-through pet with no recovery controls. Core features and content are
-shared, but these native integrations are not yet equivalent.
+On Linux the transparent outline uses X11. If you're on Wayland, run it under XWayland, otherwise you might get a box behind her.
 
-Mac builds are unsigned and not notarized. Gatekeeper may require approving the
-download in System Settings. Windows builds are unsigned too and may trigger
-SmartScreen. CI smoke tests verify startup and basic operations, not a complete
-interactive desktop acceptance test.
+Heads up: like the original, it reads your clipboard locally to react to what you copy.
 
-The original app reads clipboard text locally for reactions. File drops inspect
-names/extensions. Review the source if these features matter to your privacy.
+## Layout
 
-## Run from source
+`core/` has the app itself. `windows/`, `mac/` and `linux/` are the small platform bits. `pulchra.py` picks the right one.
 
-Use Python 3.12 with Tcl/Tk installed.
+The Mac version used to be its own older copy. It now runs the Windows code.
+
+## From source
+
+Python 3.12 with Tk.
 
 ```sh
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 python pulchra.py
 ```
 
-On Debian/Ubuntu, install `python3-tk` and X11 libraries first.
-For a headless startup test on Linux:
+On Debian/Ubuntu you'll need `python3-tk` first.
+
+To build it yourself:
 
 ```sh
-xvfb-run -a python pulchra.py --smoke-test
-```
-
-## Build
-
-```sh
-python -m pip install -r requirements-build.txt
+pip install -r requirements-build.txt
 python build.py
 ```
 
-GitHub Actions builds Linux x86_64, Linux arm64, Windows x86_64 and macOS arm64
-on every push. Tags matching `v*` also publish all four archives to a release.
-The Linux builds target Ubuntu 24.04 or compatible newer glibc systems.
-See UPSTREAM-README.txt for the original author's detailed feature notes.
+Actions builds all four targets on every push, and a `v*` tag puts them in a release. The original author's notes are in `UPSTREAM-README.txt`.
