@@ -1,0 +1,63 @@
+{
+    "pulchra_overlay_standing.png": [
+        "Move, will ya? You're blocking my view of the screen.",
+        "What? You think I'm softening up just because we've been idling here?",
+        "Focus. Let's get this finished quickly.",
+        "Just standing by. Don't make me wait here all day.",
+        "This corner of your monitor is mine now. Get used to it."
+    ],
+    "pulchra_overlay_sitting.png": [
+        "Yeah, yeah, I'm sitting down. Don't expect me to start purring like a house pet.",
+        "You look way too relaxed. That's how you get blindsided.",
+        "Take it easy. No need to stress over it.",
+        "Fine, I'll take a quick breather. But don't get lazy."
+    ],
+    "pulchra_overlay_action_1.png": [
+        "Ready for some action when you are... assuming it's actually worth my time.",
+        "Let me calculate the risk of whatever task you're running right now.",
+        "Promises are cheap out here. Show me the results.",
+        "Gotta keep the claws sharp. Typing away isn't the only way to get work done."
+    ],
+    "pulchra_overlay_action_2.png": [
+        "Alright, enough planning. Let's see if your strategy actually holds up when things get messy.",
+        "My claws are sharp and I'm losing my patience. Give me something worth dropping into.",
+        "Don't just stare at the screen. If we're moving, let's move\u2014time is gear coins.",
+        "Let's see if this assignment is actually going to keep me awake. Don't disappoint me."
+    ],
+    "pulchra_overlay_thinking.png": [
+        "Read it once, absorb the data, and move on. Don't overthink it.",
+        "Hey, if things go sideways with your code, I'm cutting my losses.",
+        "Mind your own business. I'm just auditing your desktop layout.",
+        "Let's play a little game. Guess what file I'm looking at right now."
+    ],
+    "pulchra_overlay_tail.png": [
+        "Hey! Watch the tail. Touching it is gonna cost ya extra gear coins.",
+        "Seriously? Hands off the tail. I'm trying to concentrate here.",
+        "Keep your hands on your keyboard and off of me. Got it?",
+        "Is this a distraction tactic? Because it's not working.I'm warning you, I bite."
+    ],
+    "pulchra_nomask_action.png": [
+        "Fine, I'll fight without the mask. Don't let it distract you.",
+        "Claws out, eyes on the target. Let's make this quick.",
+        "You wanted to see my face? Hope you're ready for the premium rate."
+    ],
+    "pulchra_nomask_sitting.png": [
+        "It's nice to actually breathe without that plate over my face.",
+        "What are you staring at? Haven't you ever seen a Thiren take a break?",
+        "Don't get used to this. The mask goes back on when we start running real commissions."
+    ],
+    "pulchra_overlay_casual.png": [
+        "What? Never seen a merc off the clock? Don't expect me to run any overtime commissions in these clothes.",
+        "No mask, no armor. Just let me sit here and catch up in peace.",
+        "I'm off duty right now, Proxy. Go mess with someone else's window.",
+        "I'm still keeping tabs on your desktop. Don't slack off.",
+        "Don't get too used to this look. The moment a contract drops, my mask goes right back on."
+    ],
+    "pulchra_overlay_burnt.png": [
+        "Ugh... I swear, if Burnice brought her fuel tanks near my corner again, I'm cutting my losses and logging out.",
+        "Are you blind? My tail is completely scorched! This is going to cost you serious gear coins next time.",
+        "Great. Absolutely perfect. My fur is ruined and you're laughing.",
+        "Do NOT laugh. Say one word about the smoke, Proxy, and I'm hiding your cursor inputs for a week.",
+        "Clear the workspace and back up your data right now. This place is melting."
+    ]
+}
