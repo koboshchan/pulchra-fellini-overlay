@@ -6,6 +6,14 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
+## Version 5.1.1
+
+Matches the author's current 5.1.1 source, including the head-tap shortcut saving
+fix. The source downloaded for our 5.1.0 release already contained that fix;
+this release corrects the version tag and adds a save/reload regression test.
+The shared core and platform adapters are unchanged. Download checksums are
+recorded in `UPSTREAM.json`.
+
 ## Download
 
 Grab a zip from [Releases](https://github.com/koboshchan/pulchra-fellini-overlay/releases), unzip the whole thing, and run it. You don't need Python.

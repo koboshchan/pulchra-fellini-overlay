@@ -1,0 +1,24 @@
+{
+  "version": "5.1.1",
+  "source_page": "https://sites.google.com/view/pulchra-fellini-overlay/download",
+  "source_file": "https://drive.google.com/file/d/16s4FoDIT6Dlqxcl9IXEyorAhUCFQ9TeB/view",
+  "archive_sha256": "cb9bf8a2a95bc5951d7d927096e3396702276678d87e62f4b6aa4d356fedc483",
+  "files": {
+    "pulchra_costumes.json": "331d842b8a8a64a143fabce3494d267c37eb273805220f4e8adcc2e74ad0a1e0",
+    "pulchra_mood_quotes.json": "56077c4e2b2a4f0707f46dee380710688d1a1459f815c2d7405e6eb6c9529adf",
+    "pulchra_nomask_action.png": "11a4bd66194cd9e9ed05c33fdd83481346498314085c16a906d3149166c9d132",
+    "pulchra_nomask_sitting.png": "7460abdf9cce12ce3254d1ac591dd759d7fa9bcbf381ac09edb9293a6abdd829",
+    "pulchra_overlay_action_1.png": "dbdfe149189ded26a8a739dd4d5fee2ce479e8ae22f175d5bfb09f4bf5667142",
+    "pulchra_overlay_action_2.png": "09f62fd72ef58625a5e40a51928db90af4c92803bc8944ed3dbd68535fccd06a",
+    "pulchra_overlay_burnt.png": "40288fd38d64663381d54c566dd2d69f9f78f2306e2f1631522f4781ef971f72",
+    "pulchra_overlay_casual.png": "28b191e91230669b5cf53262ee6e875501bd2d2d29c19af5924d44a15bf8e565",
+    "pulchra_overlay_icon.ico": "09eea2ae451f1401039825e40c8b0332f55d5949880c3448ec0c84654776e5f8",
+    "pulchra_overlay_sitting.png": "d556719ffd11e326712028f3806a8887d22036303a71f6fcb92eb132866ff991",
+    "pulchra_overlay_standing.png": "38c834d269ad97721a8d3125eab4dae6ccf91d5e8078ca4a682fc3fae7528ab5",
+    "pulchra_overlay_tail.png": "bd19e58a320016246cb8dcc78576dd5f86788b39a010c147044bb2599f5edabd",
+    "pulchra_overlay_thinking.png": "f9a49e7b2acf6e33dc1a8a96f092727ff2614648ed7ad6e080111797cf84f61d",
+    "pulchra_walk_spritesheet.png": "22be33645fa0aaf4cc4fea93c5b8e0e74edc20fc0ef03bf3b19be7f15369b14b",
+    "Pulchra-overlay.pyw": "2c2ccf395b58dac2f9304c20f751bb404c057b00b0b711a2fe7efe2b02cd6322",
+    "readme.txt": "fe0e5a6cd3a511f18c58b217b0f24282c1028b78a83bbc5bf339142f68f00f5d"
+  }
+}
