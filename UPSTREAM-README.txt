@@ -1,10 +1,11 @@
 README
 
-CURRENT VERSION : 5.1.1
-Approx work time ~ 32hrs
+CURRENT VERSION : 5.2.0
+Approx work time ~ 33hrs
 
 Current major version release notes
 
+-Added seasonal holiday awareness and birthday configuration 5.2.0
 -Fixed a bug where the shortcut did not save 5.1.1
 -Added a headpat shortcut you can assign so that you can quickly change settings 5.1.0
 -Fixed a compiling error in the exe version 5.0.1

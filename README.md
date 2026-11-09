@@ -6,13 +6,14 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 5.1.1
+## Version 5.2.0
 
-Matches the author's current 5.1.1 source, including the head-tap shortcut saving
-fix. The source downloaded for our 5.1.0 release already contained that fix;
-this release corrects the version tag and adds a save/reload regression test.
-The shared core and platform adapters are unchanged. Download checksums are
-recorded in `UPSTREAM.json`.
+Matches the author's current 5.2.0 source: seasonal holiday greetings at startup and
+a "Configure Birthday..." setting (MM-DD, saved in config, default 12-15) that gets
+its own greeting on the day. The new logic is ported into the shared core, so it works
+on Windows, macOS and Linux. Platform adapters are unchanged, and tests cover the
+birthday save/reload and the greeting selection. Download checksums are recorded in
+`UPSTREAM.json`.
 
 ## Download
 
