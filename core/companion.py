@@ -349,7 +349,8 @@ class PulchraDesktopCompanion:
                     self._swapper_state = cfg.get("swapper_enabled", True)
                     self._patrol_state = cfg.get("patrol_enabled", True)
                     self.click_irritation_enabled = cfg.get("click_irritation_enabled", True)
-                    self.user_name = cfg.get("user_name", "Proxy") 
+                    self.user_name = cfg.get("user_name", "Proxy")
+                    self.birthday = cfg.get("birthday", "12-15") 
                     self.last_login_date = cfg.get("last_login_date", None)
                     self.head_shortcut_setting = cfg.get("head_shortcut_setting", "chat")
                     if hasattr(self, 'var_freeze_trust'): self.var_freeze_trust.set(cfg.get("trust_frozen_enabled", False))
@@ -419,6 +420,7 @@ class PulchraDesktopCompanion:
                 
                 "bubble_light_mode_enabled": self.var_bubble_light_mode.get(),
                 "user_name": self.user_name,
+                "birthday": getattr(self, "birthday", "12-15"),
                 "disable_snap_enabled": self.var_disable_snap.get(),
                 "cooldown_time": self.var_cooldown_time.get(),
                 "mood_states": {k: v.get() for k, v in self.mood_states.items()}
@@ -456,9 +458,9 @@ class PulchraDesktopCompanion:
         self._dash_win.geometry(f"650x610+{center_x}+{center_y}")
 
         # --- LEFT COLUMN: DIALOGUE MOOD CHECKS ---
-        # HEIGHT OPTIMIZED: Lengthened to 550 to let buttons breathe evenly
+        # HEIGHT OPTIMIZED: Lengthened to 590 to let buttons breathe evenly
         mood_frame = tk.LabelFrame(self._dash_win, text=" Dialogue Mood Multi-Select ", bg="#1e1e1e", fg="#e1e4e8", font=("Segoe UI", 9, "bold"), padx=10, pady=10)
-        mood_frame.place(x=10, y=10, width=200, height=550)
+        mood_frame.place(x=10, y=10, width=200, height=590)
 
         for mood_key, var in self.mood_states.items():
             display_label = mood_key.replace("_", " ").title() + " Mode"
@@ -518,6 +520,15 @@ class PulchraDesktopCompanion:
             bg="#2d2d2d", fg="white", bd=0, pady=6, 
             font=("Segoe UI", 9, "bold"), activebackground="#3d3d3d", activeforeground="white"
         ).pack(fill="x", pady=(10, 0))
+
+            # 4. Set Birthday Interface Popup Option
+        tk.Button(
+            mood_frame, text="Configure Birthday...", 
+            command=self.prompt_custom_birthday, 
+            bg="#2d2d2d", fg="white", bd=0, pady=6, 
+            font=("Segoe UI", 9, "bold"), activebackground="#3d3d3d", activeforeground="white"
+        ).pack(fill="x", pady=(10, 0))
+        
         # --- CENTER COLUMN UPPER: EXPANDED SYSTEM UTILITIES ---
         # HEIGHT EXTENDED: Set to 255 to align the layout split line
         util_frame = tk.LabelFrame(self._dash_win, text=" System Utilities ", bg="#1e1e1e", fg="#e1e4e8", font=("Segoe UI", 9, "bold"), padx=10, pady=10)
@@ -578,7 +589,7 @@ class PulchraDesktopCompanion:
         
         guide_text = "Minute Reference Guide:\n60s = 1m | 120s = 2m | 180s = 3m\n240s = 4m | 300s = 5m | 600s = 10m"
         tk.Label(cooldown_frame, text=guide_text, bg="#1e1e1e", fg="#888888", font=("Segoe UI", 8), justify="center").pack(fill="x", pady=(12, 0))
-
+        
 
 
     def toggle_menu_mood(self, mood_key):
@@ -1896,34 +1907,97 @@ class PulchraDesktopCompanion:
                 if hasattr(self, 'trust_points'):
                     self.trust_points = min(200, self.trust_points + 10)  # +10 points capped at 200 max
             self.save_config_profile()
+
+        # --- HOLIDAY & CALENDAR TRACKING SYSTEM ---
+        today_md_tuple = (current_time_struct.tm_mon, current_time_struct.tm_mday)
+        today_md_str = f"{current_time_struct.tm_mon:02d}-{current_time_struct.tm_mday:02d}"
         
-        if 5 <= current_hour < 12:
-            greetings = [
-                "Morning. You're up early. Let's make this session quick and productive.",
-                "Sun's up, day's clearing. Ready to knock out some tasks?",
-                "Early bird gets the commission payoff. Let's look over the project.",
-                "You're awake? Good. Let's see what you've got queued up today.",
-                "Morning grind starts now. Keep your head down and stay sharp."
+        holiday_greetings = {
+            (1, 1): [
+                "Happy New Year, {name}. Clean slate. Let’s make sure whatever projects we handle this year actually pay well.",
+                "Happy New Year, {name}! Resetting the master ledger. Let's make this year's commissions highly profitable.",
+                "New year, same old desktop. Let's get to work, {name}—no sense in wasting the first day."
+            ],
+            (4, 1): [
+                "If you're planning on messing with my settings today as a joke, {name}, don't. I'll just change your desktop wallpaper to something embarrassing.",
+                "April Fools'. Just a heads-up: if your code breaks today, it's not a prank. It's just your usual typos.",
+                "If you try to drop a fake corrupted file on my partition today, {name}, I'm hiding your cursor inputs for a week."
+            ],
+            (4, 22): [
+                "It's Earth Day, {name}. Do the world a favor and clean up all those loose files rotting away on your desktop. It's digital clutter.",
+                "Earth Day, huh? Good reminder to check your hardware temps, {name}. Leaving your workstation redlining all day is a waste of grid power."
+            ],
+            (5, 1): [
+                "Apparently, it's a day celebrating work. Personally, I only celebrate when the invoice gets paid. Finish up your tasks so we can log off early, {name}.",
+                "Labor Day. Even a mercenary understands the value of contract limits. Finish your active thread quickly so we can both log off early, {name}."
+            ],
+            (10, 31): [
+                "Happy Halloween, {name}. Keep your hands on your keyboard today, alright? Touch my tail and you'll find out what a real scare feels like.",
+                "Halloween cycling active. The desktop partition is feeling spooky today, {name}...",
+                "It's getting late, {name}. If you start seeing weird errors on your screen tonight... well, let's just hope it's a glitch."
+            ],
+            (11, 26): [
+                "Go get some actual food instead of staring at this screen all day, {name}. The work isn't going anywhere.",
+                "Tracking a Thanksgiving data flag. Take a break from the terminal grind and go secure some real food assets, {name}."
+            ],
+            (12, 24): [
+                "It's Christmas Eve. Most people have shut down their computers by now, but you're still clicking away. I respect the dedication, {name}.",
+                "Christmas Eve. Most nodes are dark, but here you are typing away. Dedication looks good on you, {name}."
+            ],
+            (12, 25): [
+                "Merry Christmas, {name}. Go unwrap some gifts or something. I'm taking a break from watching your cursor, and you should too.",
+                "Merry Christmas, {name}. Consider this a rare truce variant greeting. Go take a breather.",
+                "System holiday flag active! Go open some real-world loot boxes, {name}. The command prompts can wait a day."
+            ],
+            (12, 31): [
+                "Almost midnight. Let's finish up this last bit of work so we can clock out cleanly before the clock strikes, {name}.",
+                "Final quadrant of the annual cycle closing down. Let's finish compiling this last batch of logs so we can clear the ledger cleanly, {name}."
             ]
-        elif 12 <= current_hour < 18:
+        }
+
+        # --- PROCESS SELECTION POOL ---
+        user_birthday_setting = getattr(self, "birthday", None)
+        
+        if user_birthday_setting and today_md_str == user_birthday_setting:
             greetings = [
-                "Afternoon slump? Don't let your pacing drag down our progress.",
-                "Midday check-in. What are we scrolling through right now?",
-                "Sun's high. Wrap up those open threads so we can get out early.",
-                "Back at the desktop? Let's check the workspace logs and finish up.",
-                "Just checking the perimeter. Looks like you're still clicking away."
+                "Wait, system logs say it's your birthday today? Happy birthday, {name}. I'd buy you a coffee, but I'm stuck inside your monitor.",
+                "Happy birthday, {name}. I'll bypass our standard layout protocols just this once. Don't go expecting a contract discount, though."
             ]
+        elif today_md_tuple in holiday_greetings:
+            greetings = holiday_greetings[today_md_tuple]
         else:
-            greetings = [
-                "Late-night programming? That's when the real work happens.",
-                "The server room is quiet. Perfect time to focus without distractions.",
-                "Still typing at this hour? Don't fall asleep at your workstation.",
-                "Night owl hours. Let's push this compile through and pack it up.",
-                "Dark out there. Wrap up this commission thread so we can log off."
-            ]
+            # Fall back to standard procedural time-of-day blocks
+            if 5 <= current_hour < 12:
+                greetings = [
+                    "Morning. You're up early. Let's make this session quick and productive.",
+                    "Sun's up, day's clearing. Ready to knock out some tasks?",
+                    "Early bird gets the commission payoff. Let's look over the project.",
+                    "You're awake? Good. Let's see what you've got queued up today.",
+                    "Morning grind starts now. Keep your head down and stay sharp."
+                ]
+            elif 12 <= current_hour < 18:
+                greetings = [
+                    "Afternoon slump? Don't let your pacing drag down our progress.",
+                    "Midday check-in. What are we scrolling through right now?",
+                    "Sun's high. Wrap up those open threads so we can get out early.",
+                    "Back at the desktop? Let's check the workspace logs and finish up.",
+                    "Just checking the perimeter. Looks like you're still clicking away."
+                ]
+            else:
+                greetings = [
+                    "Late-night programming? That's when the real work happens.",
+                    "The server room is quiet. Perfect time to focus without distractions.",
+                    "Still typing at this hour? Don't fall asleep at your workstation.",
+                    "Night owl hours. Let's push this compile through and pack it up.",
+                    "Dark out there. Wrap up this commission thread so we can log off."
+                ]
             
-        # Append a custom notification flag statement if the reward applied successfully
         final_msg = random.choice(greetings)
+        try:
+            final_msg = final_msg.format(name=self.user_name)
+        except Exception:
+            pass
+
         if not has_logged_today:
             final_msg += "\n\n(Daily Login Payout Collected: +10 Trust!)"
             
@@ -2433,6 +2507,38 @@ class PulchraDesktopCompanion:
 
         pop.bind("<Return>", save_and_close)
         pop.bind("<Escape>", lambda e: pop.destroy())
+    def prompt_custom_birthday(self):
+        pop = tk.Toplevel(self.root, bg="#1e1e1e")
+        pop.title("Birthday Registration")
+        pop.resizable(False, False)
+        pop.wm_attributes("-topmost", True)
+        
+        sw, sh = pop.winfo_screenwidth(), pop.winfo_screenheight()
+        cx, cy = (sw // 2) - 150, (sh // 2) - 60
+        pop.geometry(f"300x120+{cx}+{cy}")
+
+        tk.Label(pop, text="Enter your Birthday (MM-DD):", bg="#1e1e1e", fg="#e1e4e8", font=("Segoe UI", 9, "bold")).pack(pady=(12, 6))
+        
+        entry = tk.Entry(pop, bg="#2d2d2d", fg="white", insertbackground="white", bd=0, highlightthickness=1, highlightbackground="#444", font=("Segoe UI", 10), justify="center")
+        entry.pack(fill="x", padx=40, pady=4)
+        entry.insert(0, getattr(self, "birthday", "12-15"))
+        entry.focus_force()
+
+        def save_and_close(event=None):
+            val = entry.get().strip()
+            if len(val) == 5 and val[2] == "-":
+                self.birthday = val
+                self.save_config_profile()
+                self.trigger_chat_bubble(forced_text=f"Birthday parameters logged: {self.birthday}. Internal ledger updated.")
+                pop.destroy()
+            else:
+                messagebox.showerror("Format Error", "Please use standard MM-DD notation.\nExample: July 4th is 07-04", parent=pop)
+
+        tk.Button(pop, text="Confirm Target Date", command=save_and_close, bg="#2d2d2d", fg="white", bd=0, pady=6, font=("Segoe UI", 9)).pack(fill="x", padx=40, pady=(10, 0))        
+
+        pop.bind("<Return>", save_and_close)
+        pop.bind("<Escape>", lambda e: pop.destroy())
+
 
     def _get_system_idle_time(self):
         return platform_support.idle_seconds()
