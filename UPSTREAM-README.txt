@@ -1,10 +1,11 @@
 README
 
-CURRENT VERSION : 5.2.0
+CURRENT VERSION : 5.2.1
 Approx work time ~ 33hrs
 
 Current major version release notes
 
+-Added more seasonal and regional holidays
 -Added seasonal holiday awareness and birthday configuration 5.2.0
 -Fixed a bug where the shortcut did not save 5.1.1
 -Added a headpat shortcut you can assign so that you can quickly change settings 5.1.0
