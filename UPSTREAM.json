@@ -1,8 +1,8 @@
 {
-  "version": "5.3.0",
+  "version": "5.3.1",
   "source_page": "https://sites.google.com/view/pulchra-fellini-overlay/download",
-  "source_file": "https://drive.google.com/file/d/1fqG4NhL8yTiDaTlb1kvsy5_RGw3owxZ2/view",
-  "archive_sha256": "856c38b6fd4a48d0d22575bd4fe4894c0447a532b9dd1c505ee22e14e057d678",
+  "source_file": "https://drive.google.com/file/d/1t_hDK-Nw6byYAR2OeKI0vRFbhanqsiy9/view",
+  "archive_sha256": "0edc88691dff12a8c31779444967e572a2a26c11e5046326a6032035fe1b72df",
   "files": {
     "pulchra_costumes.json": "331d842b8a8a64a143fabce3494d267c37eb273805220f4e8adcc2e74ad0a1e0",
     "pulchra_mood_quotes.json": "56077c4e2b2a4f0707f46dee380710688d1a1459f815c2d7405e6eb6c9529adf",
@@ -18,7 +18,7 @@
     "pulchra_overlay_tail.png": "bd19e58a320016246cb8dcc78576dd5f86788b39a010c147044bb2599f5edabd",
     "pulchra_overlay_thinking.png": "f9a49e7b2acf6e33dc1a8a96f092727ff2614648ed7ad6e080111797cf84f61d",
     "pulchra_walk_spritesheet.png": "22be33645fa0aaf4cc4fea93c5b8e0e74edc20fc0ef03bf3b19be7f15369b14b",
-    "Pulchra-overlay.pyw": "36c46bd45c681a4bbe96c1897bde2a9f1c59bf4fe23663dad918357d3f3f7f3f",
-    "readme.txt": "a36ab9e1ecd18722c944bb85f4ae9e09c7afdf596eae55448b025ca1cbe45aa8"
+    "Pulchra-overlay.pyw": "37851af10e742b0c6cc010f691dcf90084e65c1176e2416e9bbc3f9aef36c539",
+    "readme.txt": "fb3608e015b13b35fc0fa94b4a03b268a4e562892cfa6fb6741955852c8d36b6"
   }
 }

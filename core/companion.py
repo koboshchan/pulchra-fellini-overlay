@@ -2923,7 +2923,23 @@ def main():
                 assert not app.is_gravity_flipped
                 app.change_costume("pulchra_overlay_sitting.png")
                 app.change_costume("pulchra_overlay_standing.png")
-                app.save_config_profile()
+                intervals = {"walk": 110, "swap": 220, "afk": 330,
+                             "chat": 65, "monitor": 410}
+                original = {key: getattr(app, "var_" + key + "_cooldown").get()
+                            for key in intervals}
+                try:
+                    for key, value in intervals.items():
+                        getattr(app, "var_" + key + "_cooldown").set(value)
+                    app.save_config_profile()
+                    for key in intervals:
+                        getattr(app, "var_" + key + "_cooldown").set(0)
+                    app.load_config_profile()
+                    for key, value in intervals.items():
+                        assert getattr(app, "var_" + key + "_cooldown").get() == value, key
+                finally:
+                    for key, value in original.items():
+                        getattr(app, "var_" + key + "_cooldown").set(value)
+                    app.save_config_profile()
             except Exception as error:
                 errors.append(error)
             app.quit_application()
