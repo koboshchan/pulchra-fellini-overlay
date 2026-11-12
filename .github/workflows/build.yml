@@ -20,6 +20,10 @@ jobs:
             target: windows-x86_64
           - runner: macos-15
             target: macos-arm64
+    # Main and its release tag must not compete for scarce native runners.
+    concurrency:
+      group: native-${{ matrix.target }}
+      cancel-in-progress: false
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
