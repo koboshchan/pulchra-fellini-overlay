@@ -18,7 +18,7 @@ class ShortcutConfigTests(unittest.TestCase):
                                    winfo_x=lambda: 100, winfo_y=lambda: 200)
         app.current_scale = app.current_opacity = 1.0
         app.current_image_filename = "pulchra_overlay_standing.png"
-        app.is_pinned = app.is_click_through = app.is_flipped = False
+        app.is_pinned = app.is_click_through = app.is_flipped = app.is_gravity_flipped = False
         app.chat_enabled = app.monitor_enabled = False
         app.home_x = app.home_y = app.alarm_time_str = None
         app.trust_points = 50

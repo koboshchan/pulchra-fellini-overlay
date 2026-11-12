@@ -116,6 +116,7 @@ def setup_tray(self):
         item('Toggle Drag Lock', lambda: self.safe_tray_toggle_pin(), checked=lambda item: self.is_pinned),
         item('Toggle Click-Through', lambda: self.safe_tray_toggle_click(), checked=lambda item: self.is_click_through),
         item('Flip Direction (Mirror)', lambda: self.root.after(0, self.toggle_flip)),
+            item('Flip Gravity', lambda: self.root.after(0, self.toggle_gravity_flip), checked=lambda item: self.is_gravity_flipped),
         pystray.Menu.SEPARATOR,
         item('Snap to Node', pystray.Menu(
             item('Top Left Corner', lambda: self.root.after(0, lambda: self.snap_to_screen_node("top_left"))),

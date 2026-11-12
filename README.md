@@ -6,12 +6,11 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 5.2.2
+## Version 5.3.0
 
-Matches the author's 5.2.2 source, adding Pulchra's birthday greetings and fixing
-clipboard-triggered thinking costumes so they return to the previous outfit,
-even with click irritation disabled. The changes are in the shared core for
-Windows, macOS and Linux; platform adapters are unchanged.
+Matches the author's 5.3.0 source with a saved Flip Gravity toggle. Standing
+costumes, walking frames and interaction hitboxes flip together. Available in
+the dashboard and context menu on every platform, plus the Windows tray.
 Download checksums are recorded in `UPSTREAM.json`.
 
 ## Download

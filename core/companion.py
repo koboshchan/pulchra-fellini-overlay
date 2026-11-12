@@ -49,6 +49,7 @@ class PulchraDesktopCompanion:
         self.is_pinned = False
         self.is_click_through = False
         self.is_flipped = False
+        self.is_gravity_flipped = False
         self.chat_enabled = False
         self.monitor_enabled = False
         self._swapper_state = True
@@ -338,6 +339,7 @@ class PulchraDesktopCompanion:
                     self.is_pinned = cfg.get("pinned", False)
                     self.is_click_through = cfg.get("click_through", False)
                     self.is_flipped = cfg.get("flipped", False)
+                    self.is_gravity_flipped = cfg.get("gravity_flipped", False)
                     self.current_opacity = cfg.get("opacity", 1.0)
                     self.chat_enabled = cfg.get("chat_enabled", False)
                     self.monitor_enabled = cfg.get("monitor_enabled", False)
@@ -399,6 +401,7 @@ class PulchraDesktopCompanion:
                 "pinned": self.is_pinned,
                 "click_through": self.is_click_through,
                 "flipped": self.is_flipped,
+                "gravity_flipped": self.is_gravity_flipped,
                 "opacity": self.current_opacity,
                 "chat_enabled": self.chat_enabled,
                 "monitor_enabled": self.monitor_enabled,
@@ -542,9 +545,8 @@ class PulchraDesktopCompanion:
         tk.Checkbutton(util_frame, text="Disable Edge Snapping", variable=self.var_disable_snap, command=lambda: self.root.after(10, self.save_config_profile), bg="#1e1e1e", fg="white", selectcolor="#2d2d2d", activebackground="#1e1e1e", activeforeground="white", font=("Segoe UI", 9), anchor="w").pack(fill="x", pady=4)
 
         # --- CENTER COLUMN LOWER: EXPANDED WINDOW LAYOUT & SCALING ---
-        # POSITION AND HEIGHT EXTENDED: Shifted to y=275, height increased to 285 to utilize bottom gaps
         layout_frame = tk.LabelFrame(self._dash_win, text=" Window Layout & Scaling ", bg="#1e1e1e", fg="#e1e4e8", font=("Segoe UI", 9, "bold"), padx=10, pady=8)
-        layout_frame.place(x=225, y=275, width=205, height=285)
+        layout_frame.place(x=225, y=275, width=205, height=315)
 
         tk.Checkbutton(layout_frame, text="Toggle Drag Lock", variable=self.var_pinned, command=self.toggle_pin, bg="#1e1e1e", fg="white", selectcolor="#2d2d2d", activebackground="#1e1e1e", activeforeground="white", font=("Segoe UI", 9), anchor="w").pack(fill="x", pady=2)
         tk.Checkbutton(layout_frame, text="Click-Through Mode", variable=self.var_click_through, command=self.toggle_click_through, bg="#1e1e1e", fg="white", selectcolor="#2d2d2d", activebackground="#1e1e1e", activeforeground="white", font=("Segoe UI", 9), anchor="w").pack(fill="x", pady=2)
@@ -560,12 +562,13 @@ class PulchraDesktopCompanion:
         self.slider_opacity.pack(fill="x", pady=(0, 8))
 
         tk.Button(layout_frame, text="Flip Direction (Mirror)", command=self.toggle_flip, bg="#2d2d2d", fg="white", bd=0, pady=5, font=("Segoe UI", 9)).pack(fill="x", pady=(4, 0))
-        tk.Button(layout_frame, text="Change Proxy Name...", command=self.prompt_custom_name, bg="#2d2d2d", fg="white", bd=0, pady=8, font=("Segoe UI", 9)).pack(fill="x", pady=(8, 0))    
+        tk.Button(layout_frame, text="Flip Gravity", command=self.toggle_gravity_flip, bg="#2d2d2d", fg="white", bd=0, pady=5, font=("Segoe UI", 9)).pack(fill="x", pady=(6, 0))
+        tk.Button(layout_frame, text="Change Proxy Name...", command=self.prompt_custom_name, bg="#2d2d2d", fg="white", bd=0, pady=8, font=("Segoe UI", 9)).pack(fill="x", pady=(6, 0))
 
         # --- RIGHT COLUMN: EXPANDED AUTOMATION INTERVAL COOLDOWNS ---
         # HEIGHT EXTENDED: Set to 550 to align cleanly with the outer panels
         cooldown_frame = tk.LabelFrame(self._dash_win, text=" Automation Intervals (Seconds) ", bg="#1e1e1e", fg="#e1e4e8", font=("Segoe UI", 9, "bold"), padx=10, pady=10)
-        cooldown_frame.place(x=440, y=10, width=200, height=550)
+        cooldown_frame.place(x=440, y=10, width=200, height=590)
 
         tk.Label(cooldown_frame, text="Chat Frequency:", bg="#1e1e1e", fg="#e1e4e8", font=("Segoe UI", 8)).pack(anchor="w", pady=(4, 0))
         self.sld_chat = tk.Scale(cooldown_frame, from_=5, to=120, resolution=5, orient="horizontal", bg="#1e1e1e", fg="white", troughcolor="#2d2d2d", activebackground="white", highlightthickness=0, bd=0, variable=self.var_chat_cooldown, command=lambda v: self.save_config_profile())
@@ -649,6 +652,9 @@ class PulchraDesktopCompanion:
         self.toggle_click_irritation_system()
         self.change_size(1.0)
         self.change_opacity_live(1.0)
+
+        if self.is_gravity_flipped:
+            self.toggle_gravity_flip()
 
         # --- RESTORE AND SYNC STEP ---
         # Force-overwrite any accidental modifications caused by intermediate saving
@@ -830,6 +836,9 @@ class PulchraDesktopCompanion:
         img = Image.open(image_path).convert("RGBA")
         if self.is_flipped:
             img = img.transpose(Image.FLIP_LEFT_RIGHT)
+        if self.is_gravity_flipped:
+            img = img.transpose(Image.FLIP_TOP_BOTTOM)
+
 
         orig_w, orig_h = img.size
         aspect_ratio = orig_w / orig_h
@@ -928,6 +937,7 @@ class PulchraDesktopCompanion:
         # --- QUICK CLICKS & INTEL ---
         self.menu.add_command(label="Get Intel", command=self.force_chat_bubble)
         self.menu.add_command(label="System Pulse Check", command=self.trigger_pulse_check)
+        self.menu.add_command(label="Flip Gravity", command=self.toggle_gravity_flip)
         
         timer_menu = tk.Menu(self.menu, tearoff=0, bg="#1e1e1e", fg="white")
         timer_menu.add_command(label="5 Minute Break", command=lambda: self.start_commission_timer(5))
@@ -1001,6 +1011,12 @@ class PulchraDesktopCompanion:
         self.is_flipped = not self.is_flipped
         self.root.after(0, self.load_and_scale_image)
 
+    def toggle_gravity_flip(self):
+        self.is_gravity_flipped = not self.is_gravity_flipped
+        self.root.after(0, self.load_and_scale_image)
+        if hasattr(self, 'tray_icon'):
+            self.root.after(0, self.tray_icon.update_menu)
+
     def reset_position(self):
         self.saved_x, self.saved_y = None, None
         self.root.after(0, lambda: self.load_and_scale_image(initial_run=True))
@@ -1066,6 +1082,9 @@ class PulchraDesktopCompanion:
 
             if self.is_flipped:
                 norm_x = 1.0 - norm_x
+            if self.is_gravity_flipped:
+                norm_y = 1.0 - norm_y
+
 
             fallback_box = ((0.35, 0.05, 0.65, 0.25), (0.20, 0.60, 0.80, 0.95))
             
@@ -1824,6 +1843,9 @@ class PulchraDesktopCompanion:
             frame_img = frames_list[frame_index]
             if self.is_flipped:
                 frame_img = frame_img.transpose(Image.FLIP_LEFT_RIGHT)
+            if self.is_gravity_flipped:
+                frame_img = frame_img.transpose(Image.FLIP_TOP_BOTTOM)
+
                 
             base_height = self.target_height
             target_h = int(base_height * self.current_scale)
@@ -2888,6 +2910,12 @@ def main():
                 app.trigger_persistent_timer_popup()
                 app.close_chat_bubble()
                 app.open_settings_dashboard() if hasattr(app, "open_settings_dashboard") else None
+                app.toggle_gravity_flip()
+                root.update()
+                assert app.is_gravity_flipped
+                app.toggle_gravity_flip()
+                root.update()
+                assert not app.is_gravity_flipped
                 app.change_costume("pulchra_overlay_sitting.png")
                 app.change_costume("pulchra_overlay_standing.png")
                 app.save_config_profile()

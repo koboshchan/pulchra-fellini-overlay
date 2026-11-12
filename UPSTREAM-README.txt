@@ -1,10 +1,11 @@
 README
 
-CURRENT VERSION : 5.2.2
-Approx work time ~ 33hrs
+CURRENT VERSION : 5.3.0
+Approx work time ~ 34hrs
 
 Current major version release notes
 
+-Added a flip gravity toggle 5.3.0
 -Fixed a costume swapping bug, and added more holiday quotes 5.2.2
 -Added more seasonal and regional holidays 5.2.1
 -Added seasonal holiday awareness and birthday configuration 5.2.0
