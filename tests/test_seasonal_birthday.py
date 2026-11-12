@@ -1,4 +1,4 @@
-"""Coverage for upstream 5.2.1 seasonal greetings and birthday setting."""
+"""Coverage for upstream 5.2.2 seasonal greetings and birthday setting."""
 import json
 from pathlib import Path
 import tempfile
@@ -76,7 +76,7 @@ class SeasonalBirthdayTests(unittest.TestCase):
 
     def test_expanded_holiday_pools_and_name_formatting(self):
         # All dates added in upstream 5.2.1, including regional holidays.
-        dates = ((2, 14), (3, 8), (3, 17), (5, 4), (5, 18), (7, 1),
+        dates = ((2, 14), (3, 8), (3, 17), (5, 4), (5, 18), (6, 19), (7, 1),
                  (7, 4), (7, 14), (9, 7), (9, 13), (9, 25), (9, 30),
                  (10, 12), (11, 11), (11, 27))
         with tempfile.TemporaryDirectory() as d:

@@ -1395,6 +1395,8 @@ class PulchraDesktopCompanion:
                     msg = random.choice(reactions["general"])
 
                 if random.random() < 0.25:
+                    if self.current_image_filename != "pulchra_overlay_thinking.png":
+                        self._pre_thinking_costume = self.current_image_filename
                     self.change_costume("pulchra_overlay_thinking.png")
                 
                 self.trigger_chat_bubble(forced_text=msg)
@@ -1536,14 +1538,13 @@ class PulchraDesktopCompanion:
 
         self.update_bubble_position()
         
-        if self.click_irritation_enabled and self.current_image_filename == "pulchra_overlay_thinking.png":
+        if self.current_image_filename == "pulchra_overlay_thinking.png":
             def safe_costume_revert():
                 if time.time() - self.last_click_timestamp >= 15.0 and self.current_image_filename == "pulchra_overlay_thinking.png":
-                    self.current_image_filename = self._pre_irritation_costume
-                    self.load_and_scale_image(initial_run=False)
-                    if hasattr(self, 'tray_icon'):
-                        try: self.tray_icon.update_menu()
-                        except Exception: pass
+                    fallback = getattr(self, "_pre_thinking_costume", self._pre_irritation_costume)
+                    self.change_costume(fallback)
+                    if hasattr(self, "_pre_thinking_costume"):
+                        delattr(self, "_pre_thinking_costume")
             self.root.after(15000, safe_costume_revert)
 
         self.auto_hide_id = self.root.after(7000, self.close_chat_bubble)
@@ -1948,6 +1949,10 @@ class PulchraDesktopCompanion:
             (7, 1): [
                 "Happy Canada Day, {name}. I'm expecting a lot of loud fireworks out there tonight. Keep your workspace clear so we don't overheat.",
                 "Holiday colors are out. Make sure you finish up your work early before everyone deserts the office for backyard barbecues."
+            ],
+            (6, 19): [
+                "It's my birthday today, {name}. I would excpect a gift from you, but I'm not getting too optimistic.",
+                "Did you forget it's my birthday?! If you don't have a gift for me, I hope that you at least put the time into making a cake."
             ],
             (7, 4): [
                 "July 4th. Outside is a complete mess of amateur fireworks. Let's hope your security is a lot tighter than whatever planning they're using on the streets.",
