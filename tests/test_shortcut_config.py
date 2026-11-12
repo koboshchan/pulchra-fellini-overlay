@@ -25,7 +25,9 @@ class ShortcutConfigTests(unittest.TestCase):
         app.user_name = "Proxy"
         app.mood_states = {}
         for name in ("swapper", "patrol", "irritation", "freeze_trust",
-                     "bubble_light_mode", "disable_snap", "cooldown_time"):
+                     "bubble_light_mode", "disable_snap", "cooldown_time",
+                     "walk_cooldown", "swap_cooldown", "afk_cooldown",
+                     "chat_cooldown", "monitor_cooldown"):
             setattr(app, "var_" + name, Mock(get=Mock(return_value=False)))
         return app
 

@@ -426,6 +426,11 @@ class PulchraDesktopCompanion:
                 "birthday": getattr(self, "birthday", "12-15"),
                 "disable_snap_enabled": self.var_disable_snap.get(),
                 "cooldown_time": self.var_cooldown_time.get(),
+                "walk_cooldown": self.var_walk_cooldown.get(),
+                "swap_cooldown": self.var_swap_cooldown.get(),
+                "afk_cooldown": self.var_afk_cooldown.get(),
+                "chat_cooldown": self.var_chat_cooldown.get(),
+                "monitor_cooldown": self.var_monitor_cooldown.get(),
                 "mood_states": {k: v.get() for k, v in self.mood_states.items()}
             }
             with open(config_path, "w", encoding="utf-8") as f:
