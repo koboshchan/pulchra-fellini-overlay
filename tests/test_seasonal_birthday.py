@@ -1,4 +1,4 @@
-"""Coverage for upstream 5.2.0 seasonal greetings and birthday setting."""
+"""Coverage for upstream 5.2.1 seasonal greetings and birthday setting."""
 import json
 from pathlib import Path
 import tempfile
@@ -66,3 +66,60 @@ class SeasonalBirthdayTests(unittest.TestCase):
             msg = self.greet(app, 6, 10)
             self.assertNotIn("birthday", msg.lower())
             self.assertNotIn("{name}", msg)
+
+    def test_expanded_holiday_pools_and_name_formatting(self):
+        # All dates added in upstream 5.2.1, including regional holidays.
+        dates = ((2, 14), (3, 8), (3, 17), (5, 4), (5, 18), (7, 1),
+                 (7, 4), (7, 14), (9, 7), (9, 13), (9, 25), (9, 30),
+                 (10, 12), (11, 11), (11, 27))
+        with tempfile.TemporaryDirectory() as d:
+            app = self.make(d)
+            app.birthday = "07-07"
+            app.user_name = "SeasonalTester"
+            for month, day in dates:
+                for index in (0, -1):
+                    with self.subTest(date=(month, day), quote=index):
+                        pool = []
+                        def choose(options):
+                            pool.extend(options)
+                            return options[index]
+                        with patch("core.companion.random.choice", side_effect=choose):
+                            msg = self.greet(app, month, day)
+                        self.assertEqual(len(pool), 2)
+                        self.assertNotIn("{name}", msg)
+                        if "{name}" in pool[index]:
+                            self.assertIn("SeasonalTester", msg)
+                        self.assertNotIn("Morning.", msg)
+
+    def test_daily_bonus_only_once_and_persists(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = self.make(d)
+            first = self.greet(app, 7, 1)
+            self.assertEqual(app.trust_points, 60)
+            self.assertIn("Daily Login Bonus Collected: +10 Trust!", first)
+            saved = json.loads((Path(d) / "config.json").read_text())
+            self.assertEqual(saved["last_login_date"], "2026-07-01")
+            reader = self.make(d)
+            reader.load_config_profile()
+            self.assertEqual(reader.trust_points, 60)
+            self.assertNotIn("Daily Login Bonus", self.greet(app, 7, 1))
+            self.assertEqual(app.trust_points, 60)
+            self.greet(app, 7, 2)
+            self.assertEqual(app.trust_points, 70)
+
+    def test_daily_bonus_respects_freeze_and_cap(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = self.make(d)
+            app.trust_points = 195
+            self.greet(app, 7, 1)
+            self.assertEqual(app.trust_points, 200)
+            app.var_freeze_trust.get.return_value = True
+            app.trust_points = 50
+            self.greet(app, 7, 2)
+            self.assertEqual(app.trust_points, 50)
+
+    def test_birthday_overrides_new_holiday(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = self.make(d)
+            app.birthday = "07-01"
+            self.assertIn("birthday", self.greet(app, 7, 1).lower())

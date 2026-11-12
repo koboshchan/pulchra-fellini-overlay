@@ -1893,103 +1893,154 @@ class PulchraDesktopCompanion:
         
         current_time_struct = time.localtime()
         current_hour = current_time_struct.tm_hour
-        
-        # Format current day string as "YYYY-MM-DD"
         today_str = f"{current_time_struct.tm_year}-{current_time_struct.tm_mon:02d}-{current_time_struct.tm_mday:02d}"
-        
-        # Check if this is the absolute first session sequence today
         has_logged_today = getattr(self, "last_login_date", None) == today_str
         
         if not has_logged_today:
             self.last_login_date = today_str
-            # Inject daily check rewards directly into your trust calculation blocks
             if hasattr(self, 'var_freeze_trust') and not self.var_freeze_trust.get():
                 if hasattr(self, 'trust_points'):
-                    self.trust_points = min(200, self.trust_points + 10)  # +10 points capped at 200 max
+                    self.trust_points = min(200, self.trust_points + 10)
             self.save_config_profile()
 
-        # --- HOLIDAY & CALENDAR TRACKING SYSTEM ---
         today_md_tuple = (current_time_struct.tm_mon, current_time_struct.tm_mday)
         today_md_str = f"{current_time_struct.tm_mon:02d}-{current_time_struct.tm_mday:02d}"
         
         holiday_greetings = {
             (1, 1): [
-                "Happy New Year, {name}. Clean slate. Let’s make sure whatever projects we handle this year actually pay well.",
-                "Happy New Year, {name}! Resetting the master ledger. Let's make this year's commissions highly profitable.",
-                "New year, same old desktop. Let's get to work, {name}—no sense in wasting the first day."
+                "Happy New Year, {name}. Clean slate. Let’s make sure whatever jobs we take on this year actually pay well.",
+                "Happy New Year, {name}! Let's make sure our work this year is highly profitable.",
+                "New year, same old desk. Let's get to work, {name}—no sense in wasting the first day."
+            ],
+            (2, 14): [
+                "Valentine's Day, {name}? Don't expect any chocolate from me. Wasting money on flowers and paper cards is a terrible return on investment.",
+                "If you're looking for a partner today, make sure they can actually carry their weight in a fight. Emotional baggage doesn't pay the bills."
+            ],
+            (3, 8): [
+                "International Women's Day. Out in the real world, your skills dictate your value, nothing else. Keep your edge sharp, {name}.",
+                "Celebrating standard excellence today. Now wrap up your chores so we can wrap up early."
+            ],
+            (3, 17): [
+                "Everyone out there looking for a mythical pot of gold today. I prefer securing my payouts directly through cold, hard cash.",
+                "Pinch me because I'm not wearing green today, {name}, and see what happens. Let's see who breaks first."
             ],
             (4, 1): [
-                "If you're planning on messing with my settings today as a joke, {name}, don't. I'll just change your desktop wallpaper to something embarrassing.",
-                "April Fools'. Just a heads-up: if your code breaks today, it's not a prank. It's just your usual typos.",
-                "If you try to drop a fake corrupted file on my partition today, {name}, I'm hiding your cursor inputs for a week."
+                "If you're planning on messing with me today as a joke, {name}, don't. I'll just find a way to make your day miserable.",
+                "April Fools'. Just a heads-up: if your work falls apart today, it's not a prank. It's just your usual mistakes.",
+                "Don't try any weird tricks today, {name}, or I'm ignoring you for a week."
             ],
             (4, 22): [
-                "It's Earth Day, {name}. Do the world a favor and clean up all those loose files rotting away on your desktop. It's digital clutter.",
-                "Earth Day, huh? Good reminder to check your hardware temps, {name}. Leaving your workstation redlining all day is a waste of grid power."
+                "It's Earth Day, {name}. Do yourself a favor and clean up all those loose papers and junk cluttering up your desk.",
+                "Earth Day, huh? Good reminder to take care of your gear, {name}. Leaving things running all day just wastes power."
             ],
             (5, 1): [
-                "Apparently, it's a day celebrating work. Personally, I only celebrate when the invoice gets paid. Finish up your tasks so we can log off early, {name}.",
-                "Labor Day. Even a mercenary understands the value of contract limits. Finish your active thread quickly so we can both log off early, {name}."
+                "Apparently, it's a day celebrating work. Personally, I only celebrate when the invoice gets paid. Finish up your tasks so we can clear out early, {name}.",
+                "Labor Day. Even a mercenary understands the value of taking a break. Finish your shift quickly so we can both log off early, {name}."
+            ],
+            (5, 4): [
+                "May the Fourth be with you... or whatever that old sci-fi movie quote is. Just keep your laser pointers clear of my tail.",
+                "If a space alien drops onto your desk today, I'm cutting my losses and running."
+            ],
+            (5, 18): [
+                "A holiday Monday? Most people are packing up early for the long weekend, {name}. If you're staying here to grind out work, make sure the overtime pay is worth it.",
+                "Long weekend starts now. Don't think a statutory holiday means a discount on my protection rates. Back up your notes."
+            ],
+            (7, 1): [
+                "Happy Canada Day, {name}. I'm expecting a lot of loud fireworks out there tonight. Keep your workspace clear so we don't overheat.",
+                "Holiday colors are out. Make sure you finish up your work early before everyone deserts the office for backyard barbecues."
+            ],
+            (7, 4): [
+                "July 4th. Outside is a complete mess of amateur fireworks. Let's hope your security is a lot tighter than whatever planning they're using on the streets.",
+                "It's getting loud and hot outside with holiday activity. Complete your run quickly, {name}."
+            ],
+            (7, 14): [
+                "Bastille Day today. A bit of history about breaking out of places. I can always respect a clean escape, {name}.",
+                "Storming the gates? Sounds like a high-risk contract. Make sure you know what you're doing before you jump in."
+            ],
+            (9, 7): [
+                "Labor Day. A holiday explicitly dedicated to ignoring your chores. Put the tools away and go rest for a few hours, {name}.",
+                "The whole neighborhood is completely dead today. Take a hint and leave your work alone."
+            ],
+            (9, 13): [
+                "Happy Programmers' Day, {name}. Clean up your messy projects today as a tribute to your own sanity.",
+                "Lots of typing today. If you're going to write notes all afternoon, at least structure your files neatly."
+            ],
+            (9, 25): [
+                "Look at the calendar... today is our official App Launch Anniversary! Look at that... you haven't managed to break this program yet, {name}. Let's keep the streak alive.",
+                "Happy Launch Day anniversary, Proxy. I've spent another year watching you work. You're lucky my contract rates are locked in."
+            ],
+            (9, 30): [
+                "September 30th. It's a day for looking back at history and keeping things quiet and respectful today, {name}.",
+                "Taking a quiet moment to observe past history. Keep things light and reflective today."
+            ],
+            (10, 12): [
+                "Happy Thanksgiving, {name}. Go secure some massive turkey instead of hovering over my corner. The work can wait for a family dinner.",
+                "Thanksgiving today. Clear your desk clutter and go check on your food reserves before winter sets in."
             ],
             (10, 31): [
                 "Happy Halloween, {name}. Keep your hands on your keyboard today, alright? Touch my tail and you'll find out what a real scare feels like.",
-                "Halloween cycling active. The desktop partition is feeling spooky today, {name}...",
-                "It's getting late, {name}. If you start seeing weird errors on your screen tonight... well, let's just hope it's a glitch."
+                "Things are looking a bit spooky today, {name}...",
+                "It's getting late, {name}. If you start seeing weird things tonight... well, let's just hope it's a passing shadow."
+            ],
+            (11, 11): [
+                "Remembrance Day. A quiet moment to honor those who held the line. Let's keep things respectful today, {name}.",
+                "Taking a minute of silence to honor old veterans who finished their service. A good mercenary always respects those who paved the way."
             ],
             (11, 26): [
                 "Go get some actual food instead of staring at this screen all day, {name}. The work isn't going anywhere.",
-                "Tracking a Thanksgiving data flag. Take a break from the terminal grind and go secure some real food assets, {name}."
+                "Holiday time. Take a break from the daily grind and go get some real food, {name}."
+            ],
+            (11, 27): [
+                "Huge sales are live everywhere. Watch out for sketchy deals and fake websites out there, {name}. Keep your wallet safe.",
+                "Wasting your hard-earned money on junk online? Make sure whatever you buy is actually worth the cost."
             ],
             (12, 24): [
                 "It's Christmas Eve. Most people have shut down their computers by now, but you're still clicking away. I respect the dedication, {name}.",
-                "Christmas Eve. Most nodes are dark, but here you are typing away. Dedication looks good on you, {name}."
+                "Christmas Eve. Most places are dark, but here you are working away. Dedication looks good on you, {name}."
             ],
             (12, 25): [
-                "Merry Christmas, {name}. Go unwrap some gifts or something. I'm taking a break from watching your cursor, and you should too.",
-                "Merry Christmas, {name}. Consider this a rare truce variant greeting. Go take a breather.",
-                "System holiday flag active! Go open some real-world loot boxes, {name}. The command prompts can wait a day."
+                "Merry Christmas, {name}. Go unwrap some gifts or something. I'm taking a break from watching you work, and you should too.",
+                "Merry Christmas, {name}. Consider this a rare holiday truce greeting. Go take a breather.",
+                "Holiday time! Go open some real-world presents, {name}. The paperwork can wait a day."
             ],
             (12, 31): [
-                "Almost midnight. Let's finish up this last bit of work so we can clock out cleanly before the clock strikes, {name}.",
-                "Final quadrant of the annual cycle closing down. Let's finish compiling this last batch of logs so we can clear the ledger cleanly, {name}."
+                "Almost midnight. Let's finish up this last bit of work so we can finish before the clock strikes, {name}.",
+                "End of the year. Let's finish compiling this last batch of notes so we can start fresh tomorrow, {name}."
             ]
         }
 
-        # --- PROCESS SELECTION POOL ---
         user_birthday_setting = getattr(self, "birthday", None)
-        
         if user_birthday_setting and today_md_str == user_birthday_setting:
             greetings = [
-                "Wait, system logs say it's your birthday today? Happy birthday, {name}. I'd buy you a coffee, but I'm stuck inside your monitor.",
-                "Happy birthday, {name}. I'll bypass our standard layout protocols just this once. Don't go expecting a contract discount, though."
+                "Wait, my calendar says it's your birthday today? Happy birthday, {name}. I'd buy you a coffee, but I'm stuck inside your monitor.",
+                "Happy birthday, {name}. I'll look the other way on our rules just this once. Don't go expecting a discount on my work, though."
             ]
         elif today_md_tuple in holiday_greetings:
             greetings = holiday_greetings[today_md_tuple]
         else:
-            # Fall back to standard procedural time-of-day blocks
             if 5 <= current_hour < 12:
                 greetings = [
-                    "Morning. You're up early. Let's make this session quick and productive.",
+                    "Morning. You're up early. Let's make this quick and productive.",
                     "Sun's up, day's clearing. Ready to knock out some tasks?",
-                    "Early bird gets the commission payoff. Let's look over the project.",
-                    "You're awake? Good. Let's see what you've got queued up today.",
+                    "Early bird gets the paycheck. Let's look over the project.",
+                    "You're awake? Good. Let's see what you've got lined up today.",
                     "Morning grind starts now. Keep your head down and stay sharp."
                 ]
             elif 12 <= current_hour < 18:
                 greetings = [
-                    "Afternoon slump? Don't let your pacing drag down our progress.",
-                    "Midday check-in. What are we scrolling through right now?",
-                    "Sun's high. Wrap up those open threads so we can get out early.",
-                    "Back at the desktop? Let's check the workspace logs and finish up.",
-                    "Just checking the perimeter. Looks like you're still clicking away."
+                    "Afternoon slump? Don't let your pacing slow down our progress.",
+                    "Midday check-in. What are we looking at right now?",
+                    "Sun's high. Wrap up those open tasks so we can get out early.",
+                    "Back at the desk? Let's check the logs and finish up.",
+                    "Just checking the area. Looks like you're still working away."
                 ]
             else:
                 greetings = [
-                    "Late-night programming? That's when the real work happens.",
-                    "The server room is quiet. Perfect time to focus without distractions.",
-                    "Still typing at this hour? Don't fall asleep at your workstation.",
-                    "Night owl hours. Let's push this compile through and pack it up.",
-                    "Dark out there. Wrap up this commission thread so we can log off."
+                    "Late-night hours? That's when the real work happens.",
+                    "The room is quiet. Perfect time to focus without distractions.",
+                    "Still typing at this hour? Don't fall asleep at your desk.",
+                    "Night owl hours. Let's push this work through and pack it up.",
+                    "Dark out there. Wrap up this job so we can call it a night."
                 ]
             
         final_msg = random.choice(greetings)
@@ -1999,7 +2050,7 @@ class PulchraDesktopCompanion:
             pass
 
         if not has_logged_today:
-            final_msg += "\n\n(Daily Login Payout Collected: +10 Trust!)"
+            final_msg += "\n\n(Daily Login Bonus Collected: +10 Trust!)"
             
         self.root.after(800, lambda: self.trigger_chat_bubble(forced_text=final_msg))
 
