@@ -6,12 +6,13 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 5.2.1
+## Version 5.2.2
 
-Matches the author's 5.2.1 source, with more seasonal and regional holiday greetings
-and revised dialogue. Birthday settings and daily trust rewards still work as before.
-The changes are in the shared core for Windows, macOS and Linux; platform adapters
-are unchanged. Download checksums are recorded in `UPSTREAM.json`.
+Matches the author's 5.2.2 source, adding Pulchra's birthday greetings and fixing
+clipboard-triggered thinking costumes so they return to the previous outfit,
+even with click irritation disabled. The changes are in the shared core for
+Windows, macOS and Linux; platform adapters are unchanged.
+Download checksums are recorded in `UPSTREAM.json`.
 
 ## Download
 
