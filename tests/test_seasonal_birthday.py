@@ -48,10 +48,17 @@ class SeasonalBirthdayTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             app = self.make(d)
             app.birthday = "07-07"
-            msg = self.greet(app, 12, 25)
-            self.assertIn("Proxy", msg)
-            self.assertNotIn("{name}", msg)
-            self.assertTrue("Christmas" in msg or "holiday" in msg)
+            # Exercise every Christmas variant, not a random single quote.
+            # Upstream's third quote starts with capitalized "Holiday".
+            for index in range(3):
+                with self.subTest(quote=index):
+                    with patch("core.companion.random.choice",
+                               side_effect=lambda options: options[index]):
+                        msg = self.greet(app, 12, 25)
+                    self.assertIn("Proxy", msg)
+                    self.assertNotIn("{name}", msg)
+                    self.assertTrue("christmas" in msg.lower()
+                                    or "holiday" in msg.lower())
 
     def test_birthday_overrides_holiday(self):
         with tempfile.TemporaryDirectory() as d:
