@@ -551,7 +551,7 @@ class PulchraDesktopCompanion:
 
         # --- CENTER COLUMN LOWER: EXPANDED WINDOW LAYOUT & SCALING ---
         layout_frame = tk.LabelFrame(self._dash_win, text=" Window Layout & Scaling ", bg="#1e1e1e", fg="#e1e4e8", font=("Segoe UI", 9, "bold"), padx=10, pady=8)
-        layout_frame.place(x=225, y=275, width=205, height=315)
+        layout_frame.place(x=225, y=275, width=205, height=325)
 
         tk.Checkbutton(layout_frame, text="Toggle Drag Lock", variable=self.var_pinned, command=self.toggle_pin, bg="#1e1e1e", fg="white", selectcolor="#2d2d2d", activebackground="#1e1e1e", activeforeground="white", font=("Segoe UI", 9), anchor="w").pack(fill="x", pady=2)
         tk.Checkbutton(layout_frame, text="Click-Through Mode", variable=self.var_click_through, command=self.toggle_click_through, bg="#1e1e1e", fg="white", selectcolor="#2d2d2d", activebackground="#1e1e1e", activeforeground="white", font=("Segoe UI", 9), anchor="w").pack(fill="x", pady=2)
@@ -571,7 +571,6 @@ class PulchraDesktopCompanion:
         tk.Button(layout_frame, text="Change Proxy Name...", command=self.prompt_custom_name, bg="#2d2d2d", fg="white", bd=0, pady=8, font=("Segoe UI", 9)).pack(fill="x", pady=(6, 0))
 
         # --- RIGHT COLUMN: EXPANDED AUTOMATION INTERVAL COOLDOWNS ---
-        # HEIGHT EXTENDED: Set to 550 to align cleanly with the outer panels
         cooldown_frame = tk.LabelFrame(self._dash_win, text=" Automation Intervals (Seconds) ", bg="#1e1e1e", fg="#e1e4e8", font=("Segoe UI", 9, "bold"), padx=10, pady=10)
         cooldown_frame.place(x=440, y=10, width=200, height=590)
 
@@ -2915,6 +2914,17 @@ def main():
                 app.trigger_persistent_timer_popup()
                 app.close_chat_bubble()
                 app.open_settings_dashboard() if hasattr(app, "open_settings_dashboard") else None
+                root.update_idletasks()
+                panels = {child.cget("text").strip(): child
+                          for child in app._dash_win.winfo_children()
+                          if isinstance(child, tk.LabelFrame)}
+                layout = panels["Window Layout & Scaling"]
+                assert layout.winfo_height() == 325
+                bottom = layout.winfo_y() + layout.winfo_height()
+                for name in ("Dialogue Mood Multi-Select",
+                             "Automation Intervals (Seconds)"):
+                    panel = panels[name]
+                    assert panel.winfo_y() + panel.winfo_height() == bottom
                 app.toggle_gravity_flip()
                 root.update()
                 assert app.is_gravity_flipped
