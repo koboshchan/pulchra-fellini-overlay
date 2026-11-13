@@ -6,16 +6,20 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 5.3.1
+## Version 5.3.2
 
-Matches the author's 5.3.1 fix for custom cooldowns not saving. Chat, patrol,
-costume swap, AFK sleep and resource monitor intervals now survive restarts.
-All existing features, including Flip Gravity, remain available.
+Matches the author's 5.3.2 settings fix. The center layout column now lines up
+with the outer panels. All existing features, including saved custom cooldowns
+and Flip Gravity, remain available on all four targets.
 Download checksums are recorded in `UPSTREAM.json`.
 
 ## Download
 
 Grab a zip from [Releases](https://github.com/koboshchan/pulchra-fellini-overlay/releases), unzip the whole thing, and run it. You don't need Python.
+
+Use these releases to update this cross-platform fork. The author's new Windows
+installer downloads their upstream app, not these builds; it is not bundled
+or used here.
 
 | Platform | File |
 |---|---|

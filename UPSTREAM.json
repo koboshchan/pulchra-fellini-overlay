@@ -1,10 +1,10 @@
 {
-  "version": "5.3.1",
+  "version": "5.3.2",
   "source_page": "https://sites.google.com/view/pulchra-fellini-overlay/download",
-  "source_file": "https://drive.google.com/file/d/1t_hDK-Nw6byYAR2OeKI0vRFbhanqsiy9/view",
-  "archive_sha256": "0edc88691dff12a8c31779444967e572a2a26c11e5046326a6032035fe1b72df",
+  "source_file": "https://drive.google.com/file/d/1wQyyTaNKHIF3Q-rGVjuYlrMbQ1SrF0E9/view",
+  "archive_sha256": "424f10eaad6f0b3a20d8f56be5f36a3cdbb41d707959de52a001e4922f16de35",
   "files": {
-    "pulchra_costumes.json": "331d842b8a8a64a143fabce3494d267c37eb273805220f4e8adcc2e74ad0a1e0",
+    "pulchra_costumes.json": "7d4cd78fb7abc76f2488c53d59537fe60edfcfccdcb8c115aeecfa55967a8fba",
     "pulchra_mood_quotes.json": "56077c4e2b2a4f0707f46dee380710688d1a1459f815c2d7405e6eb6c9529adf",
     "pulchra_nomask_action.png": "11a4bd66194cd9e9ed05c33fdd83481346498314085c16a906d3149166c9d132",
     "pulchra_nomask_sitting.png": "7460abdf9cce12ce3254d1ac591dd759d7fa9bcbf381ac09edb9293a6abdd829",
@@ -18,7 +18,7 @@
     "pulchra_overlay_tail.png": "bd19e58a320016246cb8dcc78576dd5f86788b39a010c147044bb2599f5edabd",
     "pulchra_overlay_thinking.png": "f9a49e7b2acf6e33dc1a8a96f092727ff2614648ed7ad6e080111797cf84f61d",
     "pulchra_walk_spritesheet.png": "22be33645fa0aaf4cc4fea93c5b8e0e74edc20fc0ef03bf3b19be7f15369b14b",
-    "Pulchra-overlay.pyw": "37851af10e742b0c6cc010f691dcf90084e65c1176e2416e9bbc3f9aef36c539",
-    "readme.txt": "fb3608e015b13b35fc0fa94b4a03b268a4e562892cfa6fb6741955852c8d36b6"
+    "Pulchra-overlay.pyw": "75d89cf65da0552f3166dcd4205578559415a45171f4441a94b6056fff5c36af",
+    "readme.txt": "fff9e0adc2cd80e918a56f61b79fc670cf9936dd9a714c4afe72bd05272c5207"
   }
 }

@@ -1,10 +1,11 @@
 README
 
-CURRENT VERSION : 5.3.1
+CURRENT VERSION : 5.3.2
 Approx work time ~ 34hrs
 
 Current major version release notes
 
+-Aligned the center coulumn in settings 5.3.2
 -Fixed a bug in the cooldowns not saving 5.3.1
 -Added a flip gravity toggle 5.3.0
 -Fixed a costume swapping bug, and added more holiday quotes 5.2.2
