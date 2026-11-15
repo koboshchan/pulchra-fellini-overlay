@@ -61,16 +61,17 @@ class HeadpatHeartTests(unittest.TestCase):
         app.trigger_heart_reaction()
         app.root.after.assert_not_called()
 
-    def spawn(self, app):
+    def spawn(self, app, jitter=0, callback=None):
         with patch("core.companion.tk.Toplevel") as top, \
              patch("core.companion.tk.Label"), \
              patch("core.companion.ImageTk.PhotoImage"), \
              patch("core.companion.configure_transparency", return_value="#202020") as trans, \
              patch("core.companion.platform_support.shape_window") as shape, \
-             patch("core.companion.random.randint", return_value=0):
+             patch("core.companion.random.randint", return_value=jitter) as spread:
             heart = top.return_value
             heart.winfo_exists.return_value = True
-            app._spawn_floating_heart()
+            (callback or app._spawn_floating_heart)()
+            spread.assert_called_once_with(-18, 18)
             trans.assert_called_once_with(heart)
             image = shape.call_args.args[1]
             self.assertEqual(image.size, (30, 30))
@@ -131,3 +132,26 @@ class HeadpatHeartTests(unittest.TestCase):
         cls = next(n for n in tree.body if isinstance(n, ast.ClassDef))
         self.assertEqual(sum(isinstance(n, ast.FunctionDef) and n.name == "_spawn_floating_heart"
                              for n in cls.body), 1)
+
+
+    def test_delayed_hearts_use_current_costume_and_window_position(self):
+        app = self.make()
+        app.trigger_heart_reaction()
+        callbacks = [call.args[1] for call in app.root.after.call_args_list]
+        # Moving, resizing, changing costume and flipping before a delayed heart
+        # fires must not reuse the old center-of-window spawn from upstream 5.4.0.
+        for index, jitter in enumerate((-18, 0, 18)):
+            with self.subTest(jitter=jitter):
+                app.current_image_filename = "new-costume"
+                app.costume_click_zones["new-costume"] = ((.2, .3, .4, .5), (0, 0, 1, 1))
+                app.root.winfo_x.return_value = 400 + index * 100
+                app.root.winfo_y.return_value = 500 + index * 100
+                app.root.winfo_width.return_value = 400
+                app.root.winfo_height.return_value = 200
+                app.is_flipped = app.is_gravity_flipped = True
+                self.assertEqual(callbacks[index], app._spawn_floating_heart)
+                heart = self.spawn(app, jitter=jitter, callback=callbacks[index])
+                x = int(400 + index * 100 + .7 * 400 - 15 + jitter)
+                y = int(500 + index * 100 + .7 * 200 - 22)
+                self.assertEqual(heart.geometry.call_args_list[0].args[0],
+                                 f"30x30+{x}+{y}")
