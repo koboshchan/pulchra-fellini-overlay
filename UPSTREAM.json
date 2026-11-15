@@ -1,8 +1,8 @@
 {
-  "version": "5.4.0",
+  "version": "5.4.1",
   "source_page": "https://sites.google.com/view/pulchra-fellini-overlay/download",
-  "source_file": "https://drive.google.com/file/d/1iN0Zzgd-ph6DRAs40J4RHka8XRE_TlCw/view",
-  "archive_sha256": "819c2ae4e85f0a00abd1a8ee35d3b8056b17a6d92e5ea8c0d11959deb0c72756",
+  "source_file": "https://drive.google.com/file/d/1G2yu1BF4BhXjOGM4UuPfpTRqGVU9D0Su/view",
+  "archive_sha256": "dc602e30941d230d66de7b1a7787473854f362d804dd67d7752bc9c8257677bf",
   "files": {
     "pulchra_costumes.json": "7d4cd78fb7abc76f2488c53d59537fe60edfcfccdcb8c115aeecfa55967a8fba",
     "pulchra_mood_quotes.json": "56077c4e2b2a4f0707f46dee380710688d1a1459f815c2d7405e6eb6c9529adf",
@@ -18,14 +18,15 @@
     "pulchra_overlay_tail.png": "bd19e58a320016246cb8dcc78576dd5f86788b39a010c147044bb2599f5edabd",
     "pulchra_overlay_thinking.png": "f9a49e7b2acf6e33dc1a8a96f092727ff2614648ed7ad6e080111797cf84f61d",
     "pulchra_walk_spritesheet.png": "22be33645fa0aaf4cc4fea93c5b8e0e74edc20fc0ef03bf3b19be7f15369b14b",
-    "pulchrainstallwizard.pyw": "8c5b9210397678ed608b0eb3192904ead47c6ac16d416efb27f1ddfde24d550f",
-    "Pulchra-overlay.pyw": "586f54d7bc1d1a2461852d182c8855cbbcaab89f23e9637c130c5450bb31733a",
-    "readme.txt": "c0f3d2b8a5ee9325849cdf850a7819edef5c73a7d699b23ea58ae2a19bbe0853"
+    "Pulchra-overlay.pyw": "6b58f41ca0781a306c62def51d9a3fbdc2101b268b1cb4d2703ea3eb7e69650d",
+    "readme.txt": "c8fc4c8f3b3712a0a21e77a2bb0215fc569d377b10ca8f5ebcc4a61aae037094"
   },
   "port_notes": [
-    "Preserves upstream 50% high-trust headpat chance (despite stale 25% comment).",
-    "Keeps the first, costume/flip-aware floating-heart method; upstream accidentally overrides it with a duplicate.",
-    "Uses native transparency adapters and a raster heart for consistent Windows/macOS/X11 rendering.",
-    "Upstream installer source is recorded for provenance but is not executed or bundled."
+    "Upstream 5.4.1 removes the duplicate floating-heart method that overrode costume/flip-aware coordinates. This fork already applied that exact correction in 5.4.0; no runtime change is required.",
+    "AST comparison verifies the surviving upstream method is identical to the first 5.4.0 definition.",
+    "Preserves the 50% high-trust chance, native transparency adapters, raster hearts and all existing fork features.",
+    "All artwork and configuration assets are byte-identical to upstream 5.4.0 and the fork.",
+    "Adds regression coverage for costume changes, movement, resizing, both flips and jitter bounds between staggered heart spawns.",
+    "The upstream Windows installer remains unbundled and was not executed."
   ]
 }

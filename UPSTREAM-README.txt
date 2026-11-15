@@ -1,10 +1,11 @@
 README
 
-CURRENT VERSION : 5.4.0
+CURRENT VERSION : 5.4.1
 Approx work time ~ 35hrs
 
 Current major version release notes
 
+-Fixed a heart spawn location bug 5.4.1
 -Added a heart reaction for the headpat shortcut that works only on high trust 5.4.0 
 -Aligned the center coulumn in settings 5.3.2
 -Fixed a bug in the cooldowns not saving 5.3.1

@@ -6,15 +6,16 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 5.4.0
+## Version 5.4.1
 
-Adds the author's high-trust headpat heart reaction. Head shortcuts have a 50%
-chance to send up three floating hearts at high trust, without changing the
-shortcut's normal action. Hearts follow the costume's head position and both
-flip directions, with native transparency on all four targets.
+Tracks the author's heart spawn-location fix. The duplicate method responsible
+was already removed in this fork's 5.4.0, so hearts already follow the active
+costume's head and both flip directions. This release records the upstream fix
+and adds regressions for movement, resizing and costume changes between hearts.
 
-Saved custom cooldowns, Flip Gravity and all existing fork features remain.
-Download checksums and the small portability corrections are in `UPSTREAM.json`.
+The 50% high-trust headpat reaction, native transparency, saved custom cooldowns,
+Flip Gravity and all existing fork features remain unchanged. Download checksums
+and portability notes are in `UPSTREAM.json`.
 
 ## Download
 
