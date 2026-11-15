@@ -4,7 +4,7 @@ import threading
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import simpledialog  
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageDraw
 import random
 import time
 import json
@@ -1187,52 +1187,129 @@ class PulchraDesktopCompanion:
         setting = self.head_shortcut_setting
         
         if setting == "pulse":
-            # Instantly run the resource diagnostics scan function
             self.trigger_pulse_check()
-            return
-            
         elif setting == "chat":
             self.var_chat.set(not self.var_chat.get())
             self.toggle_chat_bubbles()
             status = "ENABLED" if self.chat_enabled else "DISABLED"
-            msg = f"Head Shortcut: Chat Popups are now {status}."
-            
+            self.trigger_chat_bubble(forced_text=f"Head Shortcut: Chat Popups are now {status}.")
         elif setting == "swapper":
             self.var_swapper.set(not self.var_swapper.get())
             self.toggle_costume_swapper()
             status = "ENABLED" if self.var_swapper.get() else "DISABLED"
-            msg = f"Head Shortcut: Auto-Costume Swap is now {status}."
-            
+            self.trigger_chat_bubble(forced_text=f"Head Shortcut: Auto-Costume Swap is now {status}.")
         elif setting == "patrol":
             self.var_patrol.set(not self.var_patrol.get())
             self.toggle_patrol_system()
             status = "ENABLED" if self.var_patrol.get() else "DISABLED"
-            msg = f"Head Shortcut: Edge Patrol Walks are now {status}."
-            
+            self.trigger_chat_bubble(forced_text=f"Head Shortcut: Edge Patrol Walks are now {status}.")
         elif setting == "monitor":
             self.var_monitor.set(not self.var_monitor.get())
             self.toggle_resource_monitor()
             status = "ENABLED" if self.monitor_enabled else "DISABLED"
-            msg = f"Head Shortcut: Resource Monitor is now {status}."
-            
+            self.trigger_chat_bubble(forced_text=f"Head Shortcut: Resource Monitor is now {status}.")
         elif setting == "irritation":
             self.var_irritation.set(not self.var_irritation.get())
             self.toggle_click_irritation_system()
             status = "ENABLED" if self.click_irritation_enabled else "DISABLED"
-            msg = f"Head Shortcut: Click Irritation Mode is now {status}."
-            
+            self.trigger_chat_bubble(forced_text=f"Head Shortcut: Click Irritation Mode is now {status}.")
         elif setting == "snap":
             self.var_disable_snap.set(not self.var_disable_snap.get())
             self.save_config_profile()
             if hasattr(self, 'tray_icon'): 
                 self.tray_icon.update_menu()
             status = "DISABLED" if self.var_disable_snap.get() else "ENABLED"
-            msg = f"Head Shortcut: Window Edge Snapping is now {status}."
+            self.trigger_chat_bubble(forced_text=f"Head Shortcut: Window Edge Snapping is now {status}.")
         else:
-            msg = "Head Shortcut triggered, but no target profile was bound."
+            self.trigger_chat_bubble(forced_text="Head Shortcut triggered, but no target profile was bound.")
 
-        self.trigger_chat_bubble(forced_text=msg)
+        # High-trust reaction follows the shortcut bubble, with upstream 50% chance.
+        if self.get_trust_tier_label() == "high" and random.random() < 0.50:
+            self.trigger_heart_reaction()
 
+    def trigger_heart_reaction(self):
+        if self.is_click_through:
+            return
+            
+        # Spawn 3 staggered hearts rising from her exact head position
+        for i in range(3):
+            delay = i * 260
+            self.root.after(delay, self._spawn_floating_heart)
+
+    def _spawn_floating_heart(self):
+        if not self.root.winfo_exists():
+            return
+
+        win_w = self.root.winfo_width()
+        win_h = self.root.winfo_height()
+
+        # Look up the active costume's exact head hitbox
+        fallback_head = (0.35, 0.05, 0.65, 0.25)
+        if hasattr(self, 'costume_click_zones') and self.current_image_filename in self.costume_click_zones:
+            head_box, _ = self.costume_click_zones[self.current_image_filename]
+        else:
+            head_box = fallback_head
+
+        hx1, hy1, hx2, hy2 = head_box
+        norm_x = (hx1 + hx2) / 2.0
+        norm_y = hy1  # Top edge of her head
+
+        # Mirror coordinates if flipped horizontally or vertically
+        if self.is_flipped:
+            norm_x = 1.0 - norm_x
+        if self.is_gravity_flipped:
+            norm_y = 1.0 - norm_y
+
+        # Convert normalized hitbox into exact screen coordinates right above her head
+        start_x = int(self.root.winfo_x() + (norm_x * win_w) - 15 + random.randint(-18, 18))
+        start_y = int(self.root.winfo_y() + (norm_y * win_h) - 22)
+
+        heart_win = tk.Toplevel(self.root)
+        heart_win.overrideredirect(True)
+        heart_win.wm_attributes("-topmost", True)
+        heart_win.attributes("-alpha", self.current_opacity)
+        # Use the same native transparency adapters as the character window.
+        # A raster heart avoids missing Unicode glyphs and square X11 backgrounds.
+        bg = configure_transparency(heart_win)
+        heart_win.geometry(f"30x30+{start_x}+{start_y}")
+        color = random.choice(["#ff4d6d", "#ff758f", "#ff8fa3"])
+        heart = Image.new("RGBA", (120, 120), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(heart)
+        draw.ellipse((12, 16, 62, 66), fill=color)
+        draw.ellipse((58, 16, 108, 66), fill=color)
+        draw.polygon(((16, 52), (104, 52), (60, 108)), fill=color)
+        heart = heart.resize((30, 30), Image.Resampling.LANCZOS)
+        heart_win._pulchra_heart = True
+        heart_win._heart_image = ImageTk.PhotoImage(heart)
+        lbl = tk.Label(heart_win, image=heart_win._heart_image,
+                       bg=bg, bd=0, highlightthickness=0)
+        lbl.pack()
+        platform_support.shape_window(heart_win, heart)
+        heart_win.lift()
+
+        def animate_step(step, cur_x, cur_y):
+            if not heart_win.winfo_exists():
+                return
+            if step >= 34:
+                heart_win.destroy()
+                return
+
+            # Slower upward drift (1.5 px per tick) with gentle sway
+            next_y = cur_y - 1.5
+            sway = int(math.sin(step * 0.35) * 2.5)
+            heart_win.geometry(f"+{int(cur_x + sway)}+{int(next_y)}")
+            
+            # Keep heart layered on top of the speech bubble
+            heart_win.lift()
+            
+            # Smooth fade out during the final frames
+            if step > 22:
+                fade_alpha = max(0.0, self.current_opacity * (1.0 - (step - 22) / 12.0))
+                heart_win.attributes("-alpha", fade_alpha)
+
+            self.root.after(40, lambda: animate_step(step + 1, cur_x, next_y))
+
+        animate_step(0, start_x, start_y)
 
     def drag_window(self, event):
         if not self.is_pinned and not self.is_click_through and getattr(self, 'drag_data_x', None) is not None:
@@ -2950,6 +3027,25 @@ def main():
                     for key, value in original.items():
                         getattr(app, "var_" + key + "_cooldown").set(value)
                     app.save_config_profile()
+                # Exercise real heart windows and delayed animation in native builds.
+                def hearts():
+                    return [child for child in root.winfo_children()
+                            if getattr(child, "_pulchra_heart", False)]
+                def check_visible():
+                    try:
+                        assert len(hearts()) == 3, "Expected three staggered hearts"
+                    except Exception as error:
+                        errors.append(error)
+                def check_finished():
+                    try:
+                        assert not hearts(), "Heart windows did not clean up"
+                    except Exception as error:
+                        errors.append(error)
+                    app.quit_application()
+                app.trigger_heart_reaction()
+                root.after(650, check_visible)
+                root.after(2100, check_finished)
+                return
             except Exception as error:
                 errors.append(error)
             app.quit_application()
