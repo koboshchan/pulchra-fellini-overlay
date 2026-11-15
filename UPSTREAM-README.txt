@@ -1,10 +1,11 @@
 README
 
-CURRENT VERSION : 5.3.2
-Approx work time ~ 34hrs
+CURRENT VERSION : 5.4.0
+Approx work time ~ 35hrs
 
 Current major version release notes
 
+-Added a heart reaction for the headpat shortcut that works only on high trust 5.4.0 
 -Aligned the center coulumn in settings 5.3.2
 -Fixed a bug in the cooldowns not saving 5.3.1
 -Added a flip gravity toggle 5.3.0
@@ -34,6 +35,8 @@ Older versions are shown in the end
 
 Instructions / prerequisites
 
+If using opensource version:
+
 1a: If python is already installed, skip steps 1b-2
 1b: Download Python from https://python.org and open the installer.
 2: Make sure to check the box that says "Add python.exe to PATH" before installing.
@@ -45,12 +48,14 @@ Instructions / prerequisites
 
 Controls and Shortcuts
 
-Move: Left-click and hold anywhere on the character to drag her around. Note that clicking her has a 25% chance to trigger an interactive dialogue response instead of dragging. Flicking her fast across the screen causes her window to shake on impact.
+Move: Left-click and hold anywhere on the character to drag her around. Note that clicking her body triggers an interactive dialogue response, while clicking her tail triggers irritation reactions if Click Irritation Mode is active.
 File Inspector: Drag and drop files from Windows straight onto her frame to get customized text reactions based on the file type.
 Menu: Right-click or middle-click the character or system tray icon to open the menu.
 Exit: Press "Esc" key on your keyboard to close the overlay instantly.
 
--If you would prefer to change the image, you can add files with .png , .jpeg , .bmp , and .gif files. .gif files will remain motionless. SUpport for animations may be added later .jpeg pictures will not have a transparent background, as they do not support it
+Headpat Shortcut: Left-clicking her head area triggers your bound shortcut setting (can be configured in the settings dashboard). If you are at high trust (150+ points), patting her head also has a chance to trigger floating hearts above her head.
+
+-If you would prefer to change the image, you can add files with .png , .jpeg , .bmp , and .gif files. .gif files will remain motionless. SUpport for animations may be added later .jpeg pictures will not have a transparent background, as the file type does not support it
 
 -The .ico file is an icon you can use for a shortcut on your desktop, or you can supply one inside the directory to change the taskbar tray appearance.
 
@@ -74,7 +79,7 @@ Advanced Menu Functions
 -Opacity: Fades her background transparency down across 25%, 50%, or 75% depth tiers.
 -Open Folder Path: Launches Windows Explorer straight into her active script directory folder path.
 -Toggle Chat Bubbles: Turns randomized environmental commentary on or off.
--Toggle Auto-Costume Swap: Enables or disables the background script routine that randomly changes her clothing and expressions every 15 minutes.
+-Toggle Auto-Costume Swap: Enables or disables the background script routine that randomly changes her clothing and expressions every 5 minutes by default (customizable in settings).
 -Toggle Edge Patrol Walks: Toggles her autonomous perimeter exploration mode, allowing her to pick a random screen node and walk to it every 5 minutes when idling.
 -Get Intel: Skips the active chat generation cooldown and resets her internal discussion timer loops.
 -Alarm Options: Allows you to lock in a specific time of day (Must use strict 24-hour HH:MM notation, e.g., 16:30) to trigger a persistent warning banner that stays pinned over her frame until manually clicked to clear.
@@ -82,6 +87,10 @@ Advanced Menu Functions
 -Toggle Resource Monitor: Watches your background system. Drops warning bubbles if CPU/RAM load crosses 85%, or if unplugged laptop battery percentages fall underneath 50%.
 -System Pulse Check: Runs an on-demand hardware snapshot to display current CPU load, RAM usage, and upload/download network speeds in a visual message block.
 -DVD bouncing mode : works like the classic dvd screensaver
+-Flip Gravity: Flips the character upside down vertically.
+-Go to Home Anchor: Sends her back to the custom anchor coordinates you saved inside the settings dashboard.
+-Disable Edge Snapping: Stops her window from automatically magnetizing to screen borders when dragging her around.
+-Cancel Active Patrol: Stops her mid-walk and resets her back to her standing/idle pose
 
 
 Ways to earn Trust:
@@ -90,10 +99,10 @@ Ways to earn Trust:
 • Waking Up On Time (+5 Points): Setting a custom 24-hour alarm and manually clicking the persistent pop-up bubble to dismiss it when it triggers.
 • Secure File Transfer (+3 Points): Dropping verified asset categories directly onto her window (e.g., source scripts, notes, images, compressed archives, or recognized character keyword files).
 • System Metrics Audit (+1 Point): Actively checking system health telemetry by clicking System Pulse Check via the system tray or context layout menu.
-• Gathering Intel (+1 Point): Forcing manual communication check-ins by choosing the Get Intel command.
+• Gathering Intel (+3 Point): Forcing manual communication check-ins by choosing the Get Intel command.
 
 You will lose trust by:
-• Extreme Cursor Irritation (-8 Points): Continuously poking or dragging her window 7+ times in a short window. This snaps her irritation engine, forces an immediate 8-point penalty, and causes her to vanish to a random monitor corner.
+• Extreme Cursor Irritation (-5 Points): Continuously poking or dragging her window 7+ times in a short window. This snaps her irritation engine, forces an immediate 8-point penalty, and causes her to vanish to a random monitor corner.
 • The Trust Freeze Guard: Activating the Pause Trust Meter switch inside the configuration dashboard completely freezes all point increments and penalties.
 • The Performance Cap (200 Max): Trust points top out securely at a hard ceiling of 200 points to prevent variable overflows or interface breaks.
 
@@ -110,6 +119,8 @@ pulchra_overlay_tail.png
 pulchra_overlay_casual.png
 pulchra_overlay_burnt.png
 pulchra_overlay_icon.ico
+pulchra_nomask_action.png
+pulchra_nomask_sitting.png
 
 Perimeter Patrol Animation Strips:
 pulchra_walk_spritesheet.png

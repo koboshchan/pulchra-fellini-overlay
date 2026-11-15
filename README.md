@@ -6,12 +6,15 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 5.3.2
+## Version 5.4.0
 
-Matches the author's 5.3.2 settings fix. The center layout column now lines up
-with the outer panels. All existing features, including saved custom cooldowns
-and Flip Gravity, remain available on all four targets.
-Download checksums are recorded in `UPSTREAM.json`.
+Adds the author's high-trust headpat heart reaction. Head shortcuts have a 50%
+chance to send up three floating hearts at high trust, without changing the
+shortcut's normal action. Hearts follow the costume's head position and both
+flip directions, with native transparency on all four targets.
+
+Saved custom cooldowns, Flip Gravity and all existing fork features remain.
+Download checksums and the small portability corrections are in `UPSTREAM.json`.
 
 ## Download
 
