@@ -5,7 +5,8 @@ from tkinter import messagebox
 
 from core import ai_chat
 
-BG, PANEL, FG, MUTED = "#1e1e1e", "#2d2d2d", "white", "#e1e4e8"
+BG, PANEL, FG, MUTED = "#151c18", "#202b24", "#e2e9df", "#b1c5b2"
+SPEECH, ACTION, SIGNAL = "#efc26b", "#bca78c", "#a6d99b"
 
 
 class ChatWindow:
@@ -16,7 +17,7 @@ class ChatWindow:
         self.history = []
         self.busy = False
         self.win = tk.Toplevel(root)
-        self.win.title("Pulchra Comms")
+        self.win.title("Pulchra Comms // Blazewood Relay")
         self.win.configure(bg=BG)
         self.win.geometry("440x560")
         self.win.minsize(380, 460)
@@ -27,10 +28,13 @@ class ChatWindow:
         w = self.win
         top = tk.Frame(w, bg=BG)
         top.pack(fill="x", padx=14, pady=(12, 4))
-        tk.Label(top, text="Comms (optional AI chat)", bg=BG, fg=FG,
-                 font=("Segoe UI", 11, "bold")).pack(side="left")
+        tk.Label(top, text="BLAZEWOOD RELAY", bg=BG, fg=FG,
+                 font=("Courier New", 11, "bold")).pack(side="left")
         self.status = tk.Label(top, text="", bg=BG, fg=MUTED, font=("Segoe UI", 8))
         self.status.pack(side="right")
+
+        tk.Label(w, text="PULCHRA FELLINI // optional AI chat", bg=BG, fg=SIGNAL,
+                 font=("Courier New", 9)).pack(anchor="w", padx=14, pady=(0, 4))
 
         self.setup = tk.Frame(w, bg=BG)
         self.var_enabled = tk.BooleanVar(value=self.settings.enabled and self.settings.consent)
@@ -53,7 +57,8 @@ class ChatWindow:
         self.log = tk.Text(w, bg=PANEL, fg=FG, bd=0, wrap="word", state="disabled", font=("Segoe UI", 9),
                            padx=8, pady=8)
         self.log.tag_configure("you", foreground="#9aa4b2")
-        self.log.tag_configure("her", foreground=FG)
+        self.log.tag_configure("her", foreground=SPEECH)
+        self.log.tag_configure("action", foreground=ACTION)
         self.log.pack(fill="both", expand=True, padx=14, pady=6)
         row = tk.Frame(w, bg=BG)
         row.pack(fill="x", padx=14, pady=(0, 12))
@@ -83,7 +88,12 @@ class ChatWindow:
     def _append(self, who, text, tag):
         self.log.config(state="normal")
         self.log.insert("end", who + ": ", tag)
-        self.log.insert("end", text + "\n\n", tag)
+        if tag == "her":
+            for chunk, style in ai_chat.styled_reply_parts(text):
+                self.log.insert("end", chunk, style)
+        else:
+            self.log.insert("end", text, tag)
+        self.log.insert("end", "\n\n", tag)
         self.log.see("end")
         self.log.config(state="disabled")
 

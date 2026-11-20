@@ -105,6 +105,32 @@ def load_prompt(path):
         return "You are Pulchra Fellini, a sharp-eyed Feline Thiren mercenary. Stay in character."
 
 
+def styled_reply_parts(text):
+    """Split action spans without removing asterisks or interpreting markup.
+
+    Upstream 6.0.0a distinguishes *actions* from speech in its terminal.
+    Native Text tags do the same safely, including an unfinished action span.
+    """
+    action = False
+    chunk = ""
+    for char in text:
+        if char == "*":
+            if action:
+                chunk += char
+                yield chunk, "action"
+                chunk = ""
+                action = False
+            else:
+                if chunk:
+                    yield chunk, "her"
+                chunk = char
+                action = True
+        else:
+            chunk += char
+    if chunk:
+        yield chunk, "action" if action else "her"
+
+
 def build_messages(prompt, history, user_text):
     turns = [m for m in history if m.get("role") in ("user", "assistant")]
     turns = turns[-MAX_HISTORY_TURNS * 2:]

@@ -31,6 +31,21 @@ def reply(text):
 
 
 class AIChatTests(unittest.TestCase):
+    def test_action_styling_preserves_all_text(self):
+        for text in ("hello", "*ears flick* Pay up.", "one *two* three *four*", "*unfinished", "**", "<script>\\nhello"):
+            parts = list(ai_chat.styled_reply_parts(text))
+            self.assertEqual("".join(t for t, _ in parts), text)
+        self.assertEqual(list(ai_chat.styled_reply_parts("*ears flick* Pay up.")),
+                         [("*ears flick*", "action"), (" Pay up.", "her")])
+        self.assertEqual(list(ai_chat.styled_reply_parts("")), [])
+
+    def test_chat_relay_style_is_native_not_ansi_or_encryption_claim(self):
+        source = (ROOT / "core" / "chat_window.py").read_text()
+        self.assertIn('tag_configure("action"', source)
+        self.assertIn("styled_reply_parts(text)", source)
+        self.assertIn("BLAZEWOOD RELAY", source)
+        self.assertNotIn("ENCRYPTED", source)
+
     def test_defaults_are_disabled(self):
         s = ai_chat.AISettings()
         self.assertFalse(s.enabled or s.consent or s.is_ready())

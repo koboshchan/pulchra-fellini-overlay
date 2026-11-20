@@ -6,9 +6,11 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 6.0.0
+## Version 6.0.0a
 
-Tracks upstream 6.0.0, which adds an optional in-character AI chat ("Open Comms").
+Tracks upstream 6.0.0a, with the Blazewood relay chat styling and separate
+action/speech colors. The source ZIP is unchanged; this update is in the
+optional chat add-on. No upstream binaries are run or included.
 This fork implements it inside the app instead of bundling upstream's separate
 closed `pulchra_chat.exe`.
 

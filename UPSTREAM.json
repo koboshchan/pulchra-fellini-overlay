@@ -1,5 +1,5 @@
 {
-  "version": "6.0.0",
+  "version": "6.0.0a",
   "source_page": "https://sites.google.com/view/pulchra-fellini-overlay/download",
   "source_file": "https://drive.google.com/file/d/1Dar1-7L8vkb7IwcQ1SEmqSwPJfJx5a-h/view",
   "archive_sha256": "0fdd6d5486d04c7de80dd926969d5b4d9dd54ec4e2457b999fe3578b21424c47",
@@ -27,11 +27,14 @@
     "This fork instead implements optional AI chat natively in core/ai_chat.py and core/chat_window.py: off by default, explicit opt-in and disclosure, user-supplied key, no bundled key, no network before opt-in.",
     "Upstream pulchra_prompt.txt is shipped as assets/pulchra_prompt.txt.",
     "Menu item and head-tap shortcut Open Comms (AI Chat) were ported; all other artwork and configuration assets are byte-identical to 5.4.1.",
-    "The upstream Windows installer remains unbundled and was not executed."
+    "The upstream Windows installer remains unbundled and was not executed.",
+    "6.0.0a source ZIP is byte-identical to 6.0.0; only the optional chat EXE changed. The EXE was statically inspected as data, never executed or bundled.",
+    "Static code comparison shows the add-on upgrade adds a Blazewood relay banner, green/gold chat styling, and separate action/speech colors. Network and fallback logic are unchanged apart from colored output. Ported the presentation to the native Tk chat, preserving literal text and optional/off-by-default behavior.",
+    "Upstream uses an encrypted-relay fictional label; the fork does not claim end-to-end encryption. No upstream keyless service or fallback was added; messages only go to the user-configured service."
   ],
   "optional_addon": {
     "source_file": "https://drive.google.com/file/d/1-QPP5DPwKEurq3GVMiG_XnZWAFY2jk_c/view",
-    "archive_sha256": "0f95baeb7b988871bd921e28b2e4d7ba72cbb17189232549dabc2c38e2a00c68",
+    "archive_sha256": "c20c58f40c0b5bd621768f312b5f1305036415229780f9a630a1651db30d0428",
     "bundled": false
   }
 }
