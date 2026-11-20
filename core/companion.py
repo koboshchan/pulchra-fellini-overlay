@@ -13,6 +13,7 @@ import shutil
 import subprocess
 from pathlib import Path
 from core.platforms import platform_support
+from core.chat_window import ChatWindow
 
 try:
     import psutil
@@ -285,6 +286,15 @@ class PulchraDesktopCompanion:
             if not target.exists():
                 shutil.copyfile(get_asset_path(name), target)
         return str(directory)
+
+    def open_ai_chat(self):
+        """Open the optional AI chat window. It stays offline until opted in."""
+        existing = getattr(self, "_chat_win", None)
+        if existing is not None and existing.exists():
+            existing.lift()
+            return
+        self._chat_win = ChatWindow(self.root, self.get_script_dir(),
+                                    get_asset_path("pulchra_prompt.txt"))
 
     def shape_linux_window(self, image):
         platform_support.shape_window(self.root, image)
@@ -940,6 +950,7 @@ class PulchraDesktopCompanion:
 
         # --- QUICK CLICKS & INTEL ---
         self.menu.add_command(label="Get Intel", command=self.force_chat_bubble)
+        self.menu.add_command(label="Open Comms (AI Chat)", command=self.open_ai_chat)
         self.menu.add_command(label="System Pulse Check", command=self.trigger_pulse_check)
         self.menu.add_command(label="Flip Gravity", command=self.toggle_gravity_flip)
         
@@ -1213,6 +1224,8 @@ class PulchraDesktopCompanion:
             self.toggle_click_irritation_system()
             status = "ENABLED" if self.click_irritation_enabled else "DISABLED"
             self.trigger_chat_bubble(forced_text=f"Head Shortcut: Click Irritation Mode is now {status}.")
+        elif setting == "comms":
+            self.open_ai_chat()
         elif setting == "snap":
             self.var_disable_snap.set(not self.var_disable_snap.get())
             self.save_config_profile()
@@ -2934,7 +2947,8 @@ class PulchraDesktopCompanion:
             "Edge Patrol Walks": "patrol",
             "Resource Monitor": "monitor",
             "Click Irritation Mode": "irritation",
-            "Disable Edge Snapping": "snap"
+            "Disable Edge Snapping": "snap",
+            "Open Comms (AI Chat)": "comms",
         }
 
 
@@ -3002,6 +3016,14 @@ def main():
                              "Automation Intervals (Seconds)"):
                     panel = panels[name]
                     assert panel.winfo_y() + panel.winfo_height() == bottom
+                # Optional AI chat must open fully offline and ship its prompt.
+                assert os.path.exists(get_asset_path("pulchra_prompt.txt"))
+                app.open_ai_chat()
+                root.update()
+                assert app._chat_win.exists()
+                assert not app._chat_win.settings.is_ready()
+                assert str(app._chat_win.entry.cget("state")) == "disabled"
+                app._chat_win.win.destroy()
                 app.toggle_gravity_flip()
                 root.update()
                 assert app.is_gravity_flipped
