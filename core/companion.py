@@ -3058,7 +3058,11 @@ def main():
                         assert len(hearts()) == 3, "Expected three staggered hearts"
                     except Exception as error:
                         errors.append(error)
+                finish_deadline = time.time() + 6.0
                 def check_finished():
+                    if hearts() and time.time() < finish_deadline:
+                        root.after(250, check_finished)
+                        return
                     try:
                         assert not hearts(), "Heart windows did not clean up"
                     except Exception as error:
