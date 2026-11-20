@@ -1,9 +1,10 @@
 {
-  "version": "5.4.1",
+  "version": "6.0.0",
   "source_page": "https://sites.google.com/view/pulchra-fellini-overlay/download",
-  "source_file": "https://drive.google.com/file/d/1G2yu1BF4BhXjOGM4UuPfpTRqGVU9D0Su/view",
-  "archive_sha256": "dc602e30941d230d66de7b1a7787473854f362d804dd67d7752bc9c8257677bf",
+  "source_file": "https://drive.google.com/file/d/1Dar1-7L8vkb7IwcQ1SEmqSwPJfJx5a-h/view",
+  "archive_sha256": "0fdd6d5486d04c7de80dd926969d5b4d9dd54ec4e2457b999fe3578b21424c47",
   "files": {
+    "Pulchra-overlay.pyw": "2f1ce0d42f1380c60fa3bedc7db1a224db134e741dfa970e6a991521906a49d4",
     "pulchra_costumes.json": "7d4cd78fb7abc76f2488c53d59537fe60edfcfccdcb8c115aeecfa55967a8fba",
     "pulchra_mood_quotes.json": "56077c4e2b2a4f0707f46dee380710688d1a1459f815c2d7405e6eb6c9529adf",
     "pulchra_nomask_action.png": "11a4bd66194cd9e9ed05c33fdd83481346498314085c16a906d3149166c9d132",
@@ -17,16 +18,20 @@
     "pulchra_overlay_standing.png": "38c834d269ad97721a8d3125eab4dae6ccf91d5e8078ca4a682fc3fae7528ab5",
     "pulchra_overlay_tail.png": "bd19e58a320016246cb8dcc78576dd5f86788b39a010c147044bb2599f5edabd",
     "pulchra_overlay_thinking.png": "f9a49e7b2acf6e33dc1a8a96f092727ff2614648ed7ad6e080111797cf84f61d",
+    "pulchra_prompt.txt": "4af7f03f7159f625e901ef2e4615078e3012fa1d287e2e1da1e2051a6db63567",
     "pulchra_walk_spritesheet.png": "22be33645fa0aaf4cc4fea93c5b8e0e74edc20fc0ef03bf3b19be7f15369b14b",
-    "Pulchra-overlay.pyw": "6b58f41ca0781a306c62def51d9a3fbdc2101b268b1cb4d2703ea3eb7e69650d",
-    "readme.txt": "c8fc4c8f3b3712a0a21e77a2bb0215fc569d377b10ca8f5ebcc4a61aae037094"
+    "readme.txt": "c286c5862249baae5ae7e785f290d0f5b0481463ef5054f4e78f4e134d34a443"
   },
   "port_notes": [
-    "Upstream 5.4.1 removes the duplicate floating-heart method that overrode costume/flip-aware coordinates. This fork already applied that exact correction in 5.4.0; no runtime change is required.",
-    "AST comparison verifies the surviving upstream method is identical to the first 5.4.0 definition.",
-    "Preserves the 50% high-trust chance, native transparency adapters, raster hearts and all existing fork features.",
-    "All artwork and configuration assets are byte-identical to upstream 5.4.0 and the fork.",
-    "Adds regression coverage for costume changes, movement, resizing, both flips and jitter bounds between staggered heart spawns.",
+    "Upstream 6.0.0 adds menu entries that launch a separate pulchra_chat.exe/.py add-on. The closed add-on binary was inspected as data only, never executed or bundled.",
+    "This fork instead implements optional AI chat natively in core/ai_chat.py and core/chat_window.py: off by default, explicit opt-in and disclosure, user-supplied key, no bundled key, no network before opt-in.",
+    "Upstream pulchra_prompt.txt is shipped as assets/pulchra_prompt.txt.",
+    "Menu item and head-tap shortcut Open Comms (AI Chat) were ported; all other artwork and configuration assets are byte-identical to 5.4.1.",
     "The upstream Windows installer remains unbundled and was not executed."
-  ]
+  ],
+  "optional_addon": {
+    "source_file": "https://drive.google.com/file/d/1-QPP5DPwKEurq3GVMiG_XnZWAFY2jk_c/view",
+    "archive_sha256": "0f95baeb7b988871bd921e28b2e4d7ba72cbb17189232549dabc2c38e2a00c68",
+    "bundled": false
+  }
 }

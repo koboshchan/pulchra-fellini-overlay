@@ -6,16 +6,28 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 5.4.1
+## Version 6.0.0
 
-Tracks the author's heart spawn-location fix. The duplicate method responsible
-was already removed in this fork's 5.4.0, so hearts already follow the active
-costume's head and both flip directions. This release records the upstream fix
-and adds regressions for movement, resizing and costume changes between hearts.
+Tracks upstream 6.0.0, which adds an optional in-character AI chat ("Open Comms").
+This fork implements it inside the app instead of bundling upstream's separate
+closed `pulchra_chat.exe`.
 
-The 50% high-trust headpat reaction, native transparency, saved custom cooldowns,
-Flip Gravity and all existing fork features remain unchanged. Download checksums
-and portability notes are in `UPSTREAM.json`.
+**Privacy.** The AI chat is OFF by default and Pulchra makes no network requests
+of its own before you opt in. To use it, open *Open Comms (AI Chat)* from the
+right-click menu (or head-tap shortcut), tick *Enable AI chat*, accept the
+disclosure, and enter your own service address, model and API key. After that,
+each message you press Send on is sent to that service together with Pulchra's
+character prompt (`assets/pulchra_prompt.txt`) and your last few chat turns.
+Nothing else from your computer is sent. No API key is bundled. Your key is saved
+in plain text in `ai_chat.json` in the settings folder (mode 600 where
+supported), or set the `PULCHRA_AI_API_KEY` environment variable instead. Only
+https addresses are accepted, or http on your own computer. Any
+OpenAI-compatible chat completions service works.
+
+Costume/heart fixes, native transparency, saved cooldowns, Flip Gravity and all
+other fork features are unchanged. Upstream's note that the app is fully offline
+no longer applies once you enable AI chat. Checksums and notes are in
+`UPSTREAM.json`.
 
 ## Download
 

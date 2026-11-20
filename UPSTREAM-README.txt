@@ -1,10 +1,11 @@
 README
 
-CURRENT VERSION : 5.4.1
-Approx work time ~ 35hrs
+CURRENT VERSION : 6
+Approx work time ~ 37hrs
 
 Current major version release notes
 
+-Added an opptional ai chat tuned to pulchra's personality!!! 6.0.0
 -Fixed a heart spawn location bug 5.4.1
 -Added a heart reaction for the headpat shortcut that works only on high trust 5.4.0 
 -Aligned the center coulumn in settings 5.3.2
