@@ -151,3 +151,9 @@ def setup_tray(self):
     )
     self.tray_icon = pystray.Icon("PulchraCompanion", tray_img, "Pulchra Desktop Companion", tray_menu)
     threading.Thread(target=self.tray_icon.run, daemon=True).start()
+
+def keep_visible(root):
+    """Re-assert topmost without stealing focus (6.0.1 fullscreen fix)."""
+    hwnd = ctypes.windll.user32.GetParent(root.winfo_id()) or root.winfo_id()
+    # HWND_TOPMOST, NOMOVE|NOSIZE|NOACTIVATE|SHOWWINDOW
+    ctypes.windll.user32.SetWindowPos(hwnd, -1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010 | 0x0040)

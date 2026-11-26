@@ -52,3 +52,7 @@ def shape_window(root, image):
     except Exception as error:
         # XWayland generally works; native Wayland may use a rectangular fallback.
         print("X11 transparency unavailable:", error, file=sys.stderr)
+
+def keep_visible(root):
+    """Re-assert topmost without stealing focus (6.0.1 disappearance fix)."""
+    pass

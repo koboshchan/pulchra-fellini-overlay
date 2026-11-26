@@ -6,11 +6,12 @@ Made by **gugoxiii ultimatedanx**. Their site: https://sites.google.com/view/pul
 
 I'm hosting this with their permission so it builds for more than Windows. The code and art are still theirs, I'm not putting a new license on any of it.
 
-## Version 6.0.0a
+## Version 6.0.1
 
-Tracks upstream 6.0.0a, with the Blazewood relay chat styling and separate
-action/speech colors. The source ZIP is unchanged; this update is in the
-optional chat add-on. No upstream binaries are run or included.
+Tracks upstream 6.0.1, which fixes Pulchra disappearing during fullscreen
+transitions (a lightweight visibility watchdog keeps her visible and on top
+without stealing focus). Includes the 6.0.0a Blazewood relay chat styling.
+No upstream binaries are run or included.
 This fork implements it inside the app instead of bundling upstream's separate
 closed `pulchra_chat.exe`.
 

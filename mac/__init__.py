@@ -28,3 +28,7 @@ def idle_seconds():
 def setup_tray(app):
     # Cocoa requires ownership of the main loop. Tk context menu supplies all controls.
     pass
+
+def keep_visible(root):
+    """Re-assert topmost without stealing focus (6.0.1 disappearance fix)."""
+    pass

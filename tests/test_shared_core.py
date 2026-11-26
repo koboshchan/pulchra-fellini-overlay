@@ -32,6 +32,16 @@ class SharedCoreTests(unittest.TestCase):
             self.assertNotIn(text, source)
         self.assertIn("gugoxiii ultimatedanx", source)
 
+    def test_visibility_watchdog_present_and_platform_neutral(self):
+        source = (ROOT / "core" / "companion.py").read_text()
+        self.assertIn("def start_visibility_watchdog", source)
+        self.assertIn("platform_support.keep_visible", source)
+        self.assertIn("_zorder_watchdog_id", source)
+        for name in ("windows", "mac", "linux"):
+            tree = ast.parse((ROOT / name / "__init__.py").read_text())
+            self.assertIn("keep_visible", {n.name for n in tree.body if isinstance(n, ast.FunctionDef)})
+        self.assertIn("SetWindowPos", (ROOT / "windows" / "__init__.py").read_text())
+
     def test_asset_lookup_ignores_current_working_directory(self):
         from core.companion import get_asset_path
         self.assertEqual(Path(get_asset_path("pulchra_overlay_standing.png")),

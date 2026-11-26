@@ -1,10 +1,10 @@
 {
-  "version": "6.0.0a",
+  "version": "6.0.1",
   "source_page": "https://sites.google.com/view/pulchra-fellini-overlay/download",
   "source_file": "https://drive.google.com/file/d/1Dar1-7L8vkb7IwcQ1SEmqSwPJfJx5a-h/view",
-  "archive_sha256": "0fdd6d5486d04c7de80dd926969d5b4d9dd54ec4e2457b999fe3578b21424c47",
+  "archive_sha256": "bbc874ea3a1b19019103ca3d29deac5ebec44838862c89b185e004210eef9264",
   "files": {
-    "Pulchra-overlay.pyw": "2f1ce0d42f1380c60fa3bedc7db1a224db134e741dfa970e6a991521906a49d4",
+    "Pulchra-overlay.pyw": "c660687c5e03cc0729a31ba2cd42fc7eff9336280b8584785c5313911e0feb26",
     "pulchra_costumes.json": "7d4cd78fb7abc76f2488c53d59537fe60edfcfccdcb8c115aeecfa55967a8fba",
     "pulchra_mood_quotes.json": "56077c4e2b2a4f0707f46dee380710688d1a1459f815c2d7405e6eb6c9529adf",
     "pulchra_nomask_action.png": "11a4bd66194cd9e9ed05c33fdd83481346498314085c16a906d3149166c9d132",
@@ -20,7 +20,7 @@
     "pulchra_overlay_thinking.png": "f9a49e7b2acf6e33dc1a8a96f092727ff2614648ed7ad6e080111797cf84f61d",
     "pulchra_prompt.txt": "4af7f03f7159f625e901ef2e4615078e3012fa1d287e2e1da1e2051a6db63567",
     "pulchra_walk_spritesheet.png": "22be33645fa0aaf4cc4fea93c5b8e0e74edc20fc0ef03bf3b19be7f15369b14b",
-    "readme.txt": "c286c5862249baae5ae7e785f290d0f5b0481463ef5054f4e78f4e134d34a443"
+    "readme.txt": "c3b8957a865cdd26d6b7403133f9f6a364a478548031ce942675d3565b07f74a"
   },
   "port_notes": [
     "Upstream 6.0.0 adds menu entries that launch a separate pulchra_chat.exe/.py add-on. The closed add-on binary was inspected as data only, never executed or bundled.",
@@ -30,7 +30,8 @@
     "The upstream Windows installer remains unbundled and was not executed.",
     "6.0.0a source ZIP is byte-identical to 6.0.0; only the optional chat EXE changed. The EXE was statically inspected as data, never executed or bundled.",
     "Static code comparison shows the add-on upgrade adds a Blazewood relay banner, green/gold chat styling, and separate action/speech colors. Network and fallback logic are unchanged apart from colored output. Ported the presentation to the native Tk chat, preserving literal text and optional/off-by-default behavior.",
-    "Upstream uses an encrypted-relay fictional label; the fork does not claim end-to-end encryption. No upstream keyless service or fallback was added; messages only go to the user-configured service."
+    "Upstream uses an encrypted-relay fictional label; the fork does not claim end-to-end encryption. No upstream keyless service or fallback was added; messages only go to the user-configured service.",
+    "Upstream 6.0.1 fixes the overlay disappearing during fullscreen transitions with a 2.5s visibility watchdog (deiconify, re-assert topmost, Win32 HWND_TOPMOST with SWP_NOACTIVATE, re-lift config popups). Ported as start_visibility_watchdog in the shared core with a per-platform keep_visible adapter (Win32 SetWindowPos on Windows, no-op elsewhere). Upstream installer wizard not bundled or run."
   ],
   "optional_addon": {
     "source_file": "https://drive.google.com/file/d/1-QPP5DPwKEurq3GVMiG_XnZWAFY2jk_c/view",

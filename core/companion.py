@@ -263,7 +263,7 @@ class PulchraDesktopCompanion:
 
             
         self._clip_loop_id = self.root.after(3000, self.start_clipboard_monitor_loop)
-
+        self._zorder_watchdog_id = self.root.after(2000, self.start_visibility_watchdog)
 
         # --- 10. OS WINDOW CONTROLS & EVENT BOUNDARIES ---
         self.label.bind("<Button-1>", self.start_drag)
@@ -1981,8 +1981,29 @@ class PulchraDesktopCompanion:
             
         self._active_glide_id = self.root.after(20, lambda: self._step_glide(tx, ty, steps_remaining - 1, total_steps, remaining_queue))
 
+    def start_visibility_watchdog(self):
+        """Upstream 6.0.1: keep the overlay visible and topmost over fullscreen transitions."""
+        try:
+            if self.root.winfo_exists():
+                if self.root.state() != "normal":
+                    self.root.deiconify()
+                self.root.wm_attributes("-topmost", True)
+                platform_support.keep_visible(self.root)
+                for name in ("_dash_win", "_shortcut_pop"):
+                    win = getattr(self, name, None)
+                    if win is not None and win.winfo_exists():
+                        win.lift()
+        except Exception:
+            pass
+        finally:
+            try:
+                self._zorder_watchdog_id = self.root.after(2500, self.start_visibility_watchdog)
+            except Exception:
+                pass
+
     def quit_application(self):
         self.save_config_profile()
+        if getattr(self, "_zorder_watchdog_id", None): self.root.after_cancel(self._zorder_watchdog_id)
         if self.chat_timer_id: self.root.after_cancel(self.chat_timer_id)
         if self.timer_loop_id: self.root.after_cancel(self.timer_loop_id)
         if self.monitor_loop_id: self.root.after_cancel(self.monitor_loop_id)
